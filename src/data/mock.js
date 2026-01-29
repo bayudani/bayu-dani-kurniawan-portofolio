@@ -48,7 +48,7 @@ export const PROJECTS_DATA = [
   {
     id: 4,
     title: "BUMDESmart",
-    cat: "GovTech & Commerce",
+    cat: "E-Commerce",
     desc: "Digitalisasi operasional BUMDes mencakup e-commerce publik, manajemen inventaris, dan pelaporan keuangan otomatis.",
     link: "#",
     color: "from-blue-500/20 to-cyan-600/20",
@@ -75,7 +75,7 @@ export const PROJECTS_DATA = [
   {
     id: 7,
     title: "AR Biolens",
-    cat: "EdTech & AR",
+    cat: "AR",
     desc: "Aplikasi edukasi anatomi berbasis Augmented Reality & AI Context-Aware Tutor untuk visualisasi organ interaktif.",
     link: "#",
     color: "from-violet-500/20 to-indigo-600/20",
@@ -84,7 +84,7 @@ export const PROJECTS_DATA = [
   {
     id: 8,
     title: "AR UMKM Bumdes",
-    cat: "WebAR & Commerce",
+    cat: "AR",
     desc: "Katalog produk interaktif berbasis WebAR (React + MindAR) memungkinkan visualisasi produk 3D langsung di browser.",
     link: "#",
     color: "from-yellow-500/20 to-orange-600/20",
