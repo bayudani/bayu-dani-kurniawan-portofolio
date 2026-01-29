@@ -23,7 +23,7 @@ export const PROFILE_DATA = {
     { label: "Projects", value: "08" },
     { label: "Awards", value: "01" },
   ],
-  stack: ["Express JS", "Laravel", "Mysql", "Javascript", "Tailwind","Unity","Augmented Reality","Flutter","Kotlin"],
+  stack: ["Express JS", "Laravel", "Mysql", "Javascript", "Tailwind","Unity","Augmented Reality","Flutter","Kotlin","Radis", "Node JS","PHP"],
 };
 
 export const PROJECTS_DATA = [
