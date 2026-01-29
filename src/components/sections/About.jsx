@@ -2,6 +2,7 @@ import React from 'react';
 import { Github, Linkedin, Instagram, Download, Trophy, Briefcase, Calendar, GraduationCap, Award, BookOpen, ExternalLink, Activity } from 'lucide-react';
 import { PROFILE_DATA, ABOUT_DATA } from '../../data/mock_profiledata';
 
+
 export const About = () => {
   // Mapping sosmed pake data dari mock
   const socialLinks = [

@@ -1,10 +1,11 @@
 import React from 'react';
-import { LayoutGrid, User, Send } from 'lucide-react';
+import { LayoutGrid, User, Send,Briefcase } from 'lucide-react';
 
 export const NavRail = ({ active, setActive }) => {
   const items = [
     { id: 'home', icon: LayoutGrid, label: 'Work' },
     { id: 'about', icon: User, label: 'Profile' },
+    { id: 'services', icon: Briefcase, label: 'Services' },
     { id: 'contact', icon: Send, label: 'Connect' },
   ];
 

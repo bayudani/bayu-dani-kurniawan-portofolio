@@ -2,6 +2,7 @@ import React from 'react';
 import { Code2 } from 'lucide-react';
 import { PROFILE_DATA } from '../../data/mock';
 
+
 export const Hero = () => {
   return (
     <header className="pt-10 md:pt-20 space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
