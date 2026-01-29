@@ -1,9 +1,8 @@
 import React from 'react';
-import { Github, Linkedin, Instagram, Download } from 'lucide-react';
+import { Github, Linkedin, Instagram, Download, Trophy, Briefcase, Calendar, Heart, Zap, CheckCircle } from 'lucide-react';
 import { PROFILE_DATA } from '../../data/mock';
 
 export const About = () => {
-  // List sosmed lengkap + Instagram
   const socialLinks = [
     {
       icon: Github,
@@ -19,11 +18,53 @@ export const About = () => {
     }
   ];
 
+  // Data Experience (Timeline)
+  const experiences = [
+    {
+      role: "Lecturer's Community Service Team",
+      event: "Politeknik Negeri Bengkalis",
+      year: "2025",
+      desc: "Collaborated in developing digital solutions for community service programs."
+    },
+    {
+      role: "Participant / Finalist",
+      event: "KMIPN (National Polytechnic Informatics Student Competition)",
+      year: "2025",
+      desc: "Competed in national level informatics innovation."
+    },
+    {
+      role: "Participant",
+      event: "Budaya Go",
+      year: "2025",
+      desc: "Participated in cultural digitalization initiatives."
+    }
+  ];
+
+  // Why Choose Me Data
+  const values = [
+    {
+      icon: Heart,
+      title: "Dedicated & Resilient",
+      desc: "I don't just write code; I build solutions. I stick with problems until they are solved and always aim for high-impact results."
+    },
+    {
+      icon: CheckCircle,
+      title: "Disciplined Execution",
+      desc: "Consistency is key. I deliver clean, maintainable code and respect deadlines with a strong focus on details."
+    },
+    {
+      icon: Zap,
+      title: "Fast Adapter",
+      desc: "Technology evolves fast, and so do I. I quickly adapt to new stacks and environments to keep staying relevant."
+    }
+  ];
+
   return (
-    <div className="max-w-3xl animate-in fade-in slide-in-from-bottom-8 duration-700 pt-20">
+    <div className="max-w-4xl animate-in fade-in slide-in-from-bottom-8 duration-700 pt-20 pb-16">
       <h2 className="text-6xl font-bold text-white mb-12 tracking-tighter">WHO AM I?</h2>
 
-      <div className="grid md:grid-cols-2 gap-12">
+      {/* --- SECTION 1: BIO & STACK --- */}
+      <div className="grid md:grid-cols-2 gap-12 mb-20">
         <div className="space-y-6 text-zinc-400 leading-relaxed text-lg">
           <p>
             Dedicated Software Engineering student specializing in Web and Mobile Development with strong passion in building impactful digital products.
@@ -34,7 +75,7 @@ export const About = () => {
         </div>
 
         <div className="space-y-8">
-          {/* Tech Stack Section */}
+          {/* Tech Stack */}
           <div className="space-y-4">
             <h3 className="text-sm font-mono text-zinc-500 uppercase tracking-widest border-b border-white/10 pb-2">Tech Stack</h3>
             <div className="flex flex-wrap gap-2">
@@ -46,12 +87,10 @@ export const About = () => {
             </div>
           </div>
 
-          {/* Connect & Resume Section */}
+          {/* Connect */}
           <div className="space-y-4">
             <h3 className="text-sm font-mono text-zinc-500 uppercase tracking-widest border-b border-white/10 pb-2">Connect & Resume</h3>
-
             <div className="flex flex-wrap items-center gap-4">
-              {/* Social Icons */}
               <div className="flex gap-3">
                 {socialLinks.map((item, i) => (
                   <a
@@ -65,11 +104,7 @@ export const About = () => {
                   </a>
                 ))}
               </div>
-
-              {/* Divider Visual (Optional) */}
               <div className="hidden sm:block w-px h-8 bg-white/10 mx-2"></div>
-
-              {/* Download CV Button */}
               <a
                 href="/cv-bayu.pdf"
                 download="CV_Bayu_Dani_Kurniawan.pdf"
@@ -81,6 +116,80 @@ export const About = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* --- SECTION 2: WHY CHOOSE ME (New!) --- */}
+      <div className="mb-20">
+        <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          Why Work With Me?
+        </h3>
+        <div className="grid md:grid-cols-3 gap-4">
+          {values.map((val, idx) => (
+            <div key={idx} className="p-5 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors group">
+              <div className="mb-4 p-3 bg-zinc-900 rounded-lg w-fit text-zinc-400 group-hover:text-emerald-400 transition-colors">
+                <val.icon size={24} />
+              </div>
+              <h4 className="text-white font-bold mb-2">{val.title}</h4>
+              <p className="text-sm text-zinc-500 leading-relaxed">
+                {val.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* --- SECTION 3: EXPERIENCE & AWARDS --- */}
+      <div className="grid md:grid-cols-2 gap-12 border-t border-white/10 pt-12">
+
+        {/* Experience Timeline */}
+        <div>
+          <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+            <Briefcase className="text-zinc-500" size={24} />
+            Experience
+          </h3>
+          <div className="space-y-8 relative border-l border-zinc-800 ml-3 pl-8 py-2">
+            {experiences.map((exp, idx) => (
+              <div key={idx} className="relative">
+                {/* Dot Timeline */}
+                <div className="absolute -left-[37px] top-1.5 w-4 h-4 rounded-full bg-zinc-900 border-2 border-zinc-600 group-hover:border-emerald-500 transition-colors" />
+
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-mono text-emerald-500 mb-1">{exp.year}</span>
+                  <h4 className="text-white font-medium">{exp.role}</h4>
+                  <p className="text-sm text-zinc-500">{exp.event}</p>
+                  <p className="text-xs text-zinc-600 mt-1 leading-relaxed">{exp.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Awards */}
+        <div>
+          <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+            <Trophy className="text-zinc-500" size={24} />
+            Awards
+          </h3>
+          <div className="group relative p-6 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all">
+            <div className="absolute top-6 right-6 text-yellow-500/20 group-hover:text-yellow-500/50 transition-colors">
+              <Trophy size={48} />
+            </div>
+            <div className="relative z-10">
+              <span className="inline-block px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-500 text-xs font-mono mb-4 border border-yellow-500/20">
+                1st Place Winner
+              </span>
+              <h4 className="text-xl font-bold text-white mb-2">KOMTIK Competition</h4>
+              <p className="text-zinc-400 text-sm">
+                Information and Communication Technology Competition in UI/UX Design category.
+              </p>
+              <div className="mt-4 flex items-center gap-2 text-xs text-zinc-500">
+                <Calendar size={14} />
+                <span>2024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
