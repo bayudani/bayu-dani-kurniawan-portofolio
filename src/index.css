@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@layer base {
+  :root {
+    /* ... variable bawaan shadcn biarin aja ... */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    /* ... dst ... */
+  }
+
+  .dark {
+    /* ... variable dark mode shadcn ... */
+  }
+}
+
+
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000; 
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46; 
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
