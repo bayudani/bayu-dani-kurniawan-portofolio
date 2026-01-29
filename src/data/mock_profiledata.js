@@ -33,12 +33,6 @@ export const ABOUT_DATA = {
             desc: "Developed real-world fullstack web applications using React.js, Express.js, and MongoDB. Collaborated with industry mentors to build scalable software solutions."
         },
         {
-            role: "Fullstack & AR Developer (Freelance)",
-            event: "AR UMKM Bumdes Project",
-            year: "Dec 2025",
-            desc: "Developed an integrated digital ecosystem (WebAR Catalog + Admin Dashboard) for BUMDes. Solved accessibility issues by migrating to Web-Native AR (React + MindAR) and optimized 3D asset loading. Delivered the fullstack system in just 5 days."
-        },
-        {
             role: "Lecturer's Community Service Team",
             event: "Politeknik Negeri Bengkalis",
             year: "2025",
@@ -46,7 +40,7 @@ export const ABOUT_DATA = {
         },
         {
             role: "Participan",
-            event: "KMIPN (National Polytechnic Informatics Student Competition)",
+            event: "KMIPN (Kompetisi Mahasiswa Informatika Politeknik Nasiona)",
             year: "2025",
             desc: "Competed in national level informatics innovation."
         },
