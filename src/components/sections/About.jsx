@@ -1,6 +1,5 @@
 import React from 'react';
 import { Github, Linkedin, Instagram, Download, Trophy, Briefcase, Calendar, GraduationCap, Award, BookOpen, ExternalLink, Activity } from 'lucide-react';
-// Import data yang udah dipisah
 import { PROFILE_DATA, ABOUT_DATA } from '../../data/mock_profiledata';
 
 export const About = () => {

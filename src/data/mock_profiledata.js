@@ -93,7 +93,9 @@ export const ABOUT_DATA = {
         "Alibaba Cloud Certified Developer",
         "Dicoding - Belajar Dasar Pemrograman Web",
         "Rakamin Academy - HTML, CSS, Teamwork",
-        "Kampus Merdeka - Fullstack Web Development with React & Express JS"
+        "Kampus Merdeka - Fullstack Web Development with React & Express JS",
+        "LinkedIn Learning - Artificial Intelligence",
+        "Coding Studio - Fullstack Web Development with Laravel"
     ],
     publications: [
         {
