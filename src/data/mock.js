@@ -23,7 +23,7 @@ export const PROFILE_DATA = {
   avatar: profileImg,
   stats: [
     { label: "Years", value: "01" },
-    { label: "Projects", value: "09" },
+    { label: "Projects", value: "08" },
     { label: "Awards", value: "01" },
   ],
   stack: ["Express JS", "Laravel", "MySQL", "Javascript", "Tailwind", "Unity", "Augmented Reality", "Flutter", "Kotlin", "Redis", "Node JS", "PHP"],
