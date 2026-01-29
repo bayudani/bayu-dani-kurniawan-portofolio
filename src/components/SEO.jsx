@@ -5,11 +5,11 @@ import { PROFILE_DATA } from '../data/mock_profiledata';
 export const SEO = () => {
     const siteTitle = `${PROFILE_DATA.name} - ${PROFILE_DATA.role}`;
     const siteDescription = PROFILE_DATA.bio;
-    const siteUrl = "https://bayu-dani-kurniawan-portofolio.vercel.app/"; // Ganti domain asli nanti
-    const siteImage = "https://bayu-dani-kurniawan-portofolio.vercel.app/og-image.png"; // Gambar preview (1200x630px)
-    const themeColor = "#10b981"; // Emerald color sesuai tema
+    const siteUrl = "https://bayu-dani-kurniawan-portofolio.vercel.app/";
+    const siteImage = "https://bayu-dani-kurniawan-portofolio.vercel.app/og-image.png"; 
+    const themeColor = "#10b981"; 
 
-    // JSON-LD Schema: Ini biar Google paham konteks "Siapa Lo" (Person Schema)
+    // JSON-LD Schema: Ini biar Google paham konteks  (Person Schema)
     // Sangat powerful buat SEO Personal Branding
     const schemaMarkup = {
         "@context": "https://schema.org",
