@@ -13,7 +13,7 @@ import arUmkmImg from '../assets/images/arumkm.png';
 import medicalImg from '../assets/images/medical.png';
 
 export const PROFILE_DATA = {
-  name: "Bayu Dani K",
+  name: "Bayu Dani Kurniawan",
   role: "Web Developer",
   location: "Bengkalis, Riau",
   
@@ -22,7 +22,7 @@ export const PROFILE_DATA = {
   
   avatar: profileImg,
   stats: [
-    { label: "Years", value: "01" },
+    { label: "Years", value: "01+" },
     { label: "Projects", value: "08" },
     { label: "Awards", value: "01" },
   ],

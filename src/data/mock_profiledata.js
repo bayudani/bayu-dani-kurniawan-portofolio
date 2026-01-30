@@ -5,13 +5,13 @@ import profileImg from '../assets/images/profile.png';
 
 // --- DATA UTAMA PROFILE ---
 export const PROFILE_DATA = {
-    name: "Bayu Dani K",
+    name: "Bayu Dani Kurniawan",
     role: "Web Developer",
     location: "Bengkalis, Riau",
     bio: "Dedicated Software Engineering student specializing in Web and Mobile Development with strong passion in building impactful digital products. Experienced in developing full-stack applications using Laravel, ExpressJS, Flutter, and Kotlin. Skilled in problem solving, teamwork, and adapting to new technologies quickly.",
     avatar: profileImg,
     stats: [
-        { label: "Years", value: "01" },
+        { label: "Years", value: "01+" },
         { label: "Projects", value: "08" },
         { label: "Awards", value: "01" },
     ],
@@ -26,12 +26,7 @@ export const PROFILE_DATA = {
 // --- DATA KHUSUS SECTION ABOUT / RESUME ---
 export const ABOUT_DATA = {
     experiences: [
-        {
-            role: "Fullstack Software Developer (MSIB Intern)",
-            event: "Kampus Merdeka x Productzilla",
-            year: "2024",
-            desc: "Developed real-world fullstack web applications using React.js, Express.js, and MongoDB. Collaborated with industry mentors to build scalable software solutions."
-        },
+
         {
             role: "Lecturer's Community Service Team",
             event: "Politeknik Negeri Bengkalis",
@@ -49,6 +44,33 @@ export const ABOUT_DATA = {
             event: "Budaya Go",
             year: "2025",
             desc: "Participated in cultural digitalization initiatives."
+        },
+        {
+            role: "Participant",
+            event: "ICIF (Informatics Creative and Innovation Festival)",
+            year: "2024 & 2025",
+            desc: "Participated twice in the annual informatics festival. In 2023, collaborated with a team to win the 'Favorite Junior Developer' award."
+        },
+        {
+            role: "Fullstack Software Developer (MSIB Intern)",
+            event: "Kampus Merdeka x Productzilla",
+            year: "2024",
+            desc: "Developed real-world fullstack web applications using React.js, Express.js, and MongoDB. Collaborated with industry mentors to build scalable software solutions."
+        },
+    ],
+    // DATA AWARDS
+    awards: [
+        {
+            title: "KOMTIK Competition",
+            rank: "1st Place Winner",
+            desc: "Information and Communication Technology Competition in UI/UX Design category. Designed innovative prototypes focusing on modern user experience.",
+            year: "2024"
+        },
+        {
+            title: "ICIF (Informatics Festival)",
+            rank: "Favorite Junior Developer",
+            desc: "Awarded as the most favorite junior developer team for innovative project showcase at Politeknik Negeri Bengkalis.",
+            year: "2024"
         }
     ],
     values: [
@@ -100,3 +122,29 @@ export const ABOUT_DATA = {
         }
     ]
 };
+export const TESTIMONIALS = [
+    {
+        name: "Rian S.",
+        role: "Mahasiswa Tingkat Akhir",
+        msg: "Bang Bayu gokil sih! Project AR Skripsi gue kelar cuma dalam 5 hari. Dosen pembimbing langsung acc tanpa banyak revisi. Recommended parah buat yang lagi deadline!",
+        rating: 5
+    },
+    {
+        name: "Siti A.",
+        role: "UMKM Owner",
+        msg: "Puas banget sama hasil website landing page-nya. Desainnya clean, loading cepet, dan sesuai banget sama request. Penjualan produk saya jadi naik berkat web baru.",
+        rating: 5
+    },
+    {
+        name: "Dimas P.",
+        role: "IT Staff",
+        msg: "Minta tolong fix bug Laravel yang udah seminggu bikin pusing, eh sama Mas Bayu diselesain cuma 2 jam. Skill backend-nya ngeri abis!",
+        rating: 5
+    },
+    {
+        name: "Budi W.",
+        role: "Startup Founder",
+        msg: "Kerja sama Bayu itu enak, komunikatif dan fast response. UI/UX aplikasi mobile yang dibuat sangat user friendly. Next project pasti kontak lagi.",
+        rating: 4
+    }
+];

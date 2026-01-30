@@ -36,7 +36,7 @@ export const SEO = () => {
             <html lang="id" />
             <title>{siteTitle}</title>
             <meta name="description" content={siteDescription} />
-            <meta name="keywords" content="Web Developer, React Developer, Frontend Engineer, Portfolio, Bayu Dani, Laravel Developer, Fullstack, Bengkalis, Riau" />
+            <meta name="keywords" content="Web Developer, React Developer, Frontend Engineer, Portfolio, Bayu Dani Kurniawan, Laravel Developer, Fullstack, Bengkalis, Riau, Politeknik Negeri Bengkalis, Mahasiswa, Informatics, Informatics Engineering, Informatics Engineering Politeknik Negeri Bengkalis" />
             <meta name="author" content={PROFILE_DATA.name} />
             <link rel="canonical" href={siteUrl} />
             <meta name="google-site-verification" content="3d2juzjh7Wv1DFViDmr1qN5U1T43eKmPauDGiv4z6Q8" />
