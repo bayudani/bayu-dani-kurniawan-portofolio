@@ -4,24 +4,24 @@ import { NavRail } from "./components/layout/NavRail";
 import { PROFILE_DATA } from "./data/mock_profiledata";
 import { SEO } from "./components/SEO";
 
-// --- LAZY LOAD KOMPONEN BERAT (Code Splitting) ---
-// Biar browser gak download semuanya di awal. Skor Lighthouse bakal naik drastis!
+// --- LAZY LOAD KOMPONEN BERAT (Optimasi Lighthouse) ---
+// Browser ga perlu download semua ini di awal loading.
 const AuroraBackground = lazy(() => import("./components/ui/AuroraBackground").then(module => ({ default: module.AuroraBackground })));
 const BackgroundRippleEffect = lazy(() => import("@/components/ui/background-ripple-effect").then(module => ({ default: module.BackgroundRippleEffect })));
 const MaskContainer = lazy(() => import("@/components/ui/svg-mask-effect").then(module => ({ default: module.MaskContainer })));
 const Boxes = lazy(() => import("@/components/ui/background-boxes").then(module => ({ default: module.Boxes })));
 
-// Section juga di-lazy load
+// Section Halaman di-lazy load juga
 const Hero = lazy(() => import("./components/sections/Hero").then(module => ({ default: module.Hero })));
 const Projects = lazy(() => import("./components/sections/Projects").then(module => ({ default: module.Projects })));
 const About = lazy(() => import("./components/sections/About").then(module => ({ default: module.About })));
 const Services = lazy(() => import("./components/sections/Services").then(module => ({ default: module.Services })));
 const Contact = lazy(() => import("./components/sections/Contact").then(module => ({ default: module.Contact })));
 
-// Loading State Minimalis (biar user tau ada proses loading)
+// Loading Component Sederhana (Muncul bentar pas awal buka/pindah tab)
 const LoadingFallback = () => (
-  <div className="flex h-screen w-full items-center justify-center bg-black text-emerald-500 font-mono text-sm">
-    Initializing...
+  <div className="flex h-screen w-full items-center justify-center bg-black text-emerald-500 font-mono text-sm animate-pulse">
+    Loading Resources...
   </div>
 );
 
@@ -38,32 +38,37 @@ export default function App() {
       
       <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black overflow-x-hidden relative">
         
-        {/* Suspense buat Background biar ga nge-block rendering awal */}
+        {/* Layer 1: Backgrounds (Lazy Loaded) */}
         <Suspense fallback={null}>
             <div className="fixed inset-0 z-0">
                 <AuroraBackground />
             </div>
-            <div className="fixed inset-0 z-0 pointer-events-none">
+            {/* Ripple dimatikan di mobile biar ringan, nyala di desktop (md:block) */}
+            <div className="fixed inset-0 z-0 pointer-events-none hidden md:block">
                 <BackgroundRippleEffect />
             </div>
         </Suspense>
 
-        {/* NavRail penting, jadi ga perlu lazy load (biar interaktif cepet) */}
+        {/* Layer 2: Navigation (Penting, load langsung) */}
         <NavRail active={activeTab} setActive={setActiveTab} />
 
         <main className="relative z-10 pl-0 min-h-screen">
           
+          {/* Layer 3: Wrapper Utama Konten */}
           <Suspense fallback={<LoadingFallback />}>
             <MaskContainer>
               
+              {/* Layer 4: Background Boxes (Z-0) */}
               <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                  <div className="pointer-events-auto"> 
                     <Boxes />
                  </div>
               </div>
 
+              {/* Layer 5: Konten & Navbar (Z-20 biar bisa diklik) */}
               <div className="relative z-20 max-w-5xl mx-auto px-6 pb-32">
                 
+                {/* Header Navbar (Fixed Position) */}
                 <div className="fixed top-0 left-0 right-0 px-6 py-6 z-50 flex justify-between items-center bg-black/40 backdrop-blur-xl border-b border-white/5 transition-all">
                   <div className="font-bold tracking-tighter text-xl pointer-events-auto text-white">
                     {PROFILE_DATA.name}
@@ -73,8 +78,9 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="mt-12">
-                  <Suspense fallback={<div className="py-20 text-center text-zinc-500 animate-pulse">Loading Content...</div>}>
+                {/* Content Body (Ada margin top biar ga ketutupan navbar) */}
+                <div className="mt-32 md:mt-12">
+                  <Suspense fallback={<div className="py-20 text-center text-zinc-500 animate-pulse">Loading Section...</div>}>
                     {activeTab === "home" && (
                       <div className="space-y-20">
                         <Hero />
