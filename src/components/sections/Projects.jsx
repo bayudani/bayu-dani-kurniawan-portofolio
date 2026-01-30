@@ -18,7 +18,7 @@ export const Projects = () => {
       
       {/* Header & Filter */}
       <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/10 pb-4 gap-4">
-        <h2 className="text-sm font-mono text-zinc-400">SELECTED WORKS ({PROJECTS_DATA.length})</h2>
+        <h2 className="text-sm font-mono text-zinc-300">SELECTED WORKS ({PROJECTS_DATA.length})</h2>
         <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
           {categories.map(cat => (
             <button
@@ -27,7 +27,7 @@ export const Projects = () => {
               className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all whitespace-nowrap border ${
                 filter === cat 
                   ? 'bg-white text-black border-white' 
-                  : 'text-zinc-500 border-transparent hover:text-white hover:bg-white/5'
+                  : 'text-zinc-300 border-transparent hover:text-white hover:bg-white/5'
               }`}
             >
               {cat}
