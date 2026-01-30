@@ -4,6 +4,10 @@ import { NavRail } from "./components/layout/NavRail";
 import { PROFILE_DATA } from "./data/mock_profiledata";
 import { SEO } from "./components/SEO";
 
+// --- PERBAIKAN PENTING: HERO WAJIB STATIC IMPORT (LCP Fix) ---
+// Hero tidak boleh lazy load agar skor Performance LCP bisa 100.
+import { Hero } from "./components/sections/Hero";
+
 // --- LAZY LOAD KOMPONEN BERAT (Optimasi Lighthouse) ---
 // Browser ga perlu download semua ini di awal loading.
 const AuroraBackground = lazy(() => import("./components/ui/AuroraBackground").then(module => ({ default: module.AuroraBackground })));
@@ -11,14 +15,13 @@ const BackgroundRippleEffect = lazy(() => import("@/components/ui/background-rip
 const MaskContainer = lazy(() => import("@/components/ui/svg-mask-effect").then(module => ({ default: module.MaskContainer })));
 const Boxes = lazy(() => import("@/components/ui/background-boxes").then(module => ({ default: module.Boxes })));
 
-// Section Halaman di-lazy load juga
-const Hero = lazy(() => import("./components/sections/Hero").then(module => ({ default: module.Hero })));
+// Section Halaman di-lazy load (Kecuali Hero)
 const Projects = lazy(() => import("./components/sections/Projects").then(module => ({ default: module.Projects })));
 const About = lazy(() => import("./components/sections/About").then(module => ({ default: module.About })));
 const Services = lazy(() => import("./components/sections/Services").then(module => ({ default: module.Services })));
 const Contact = lazy(() => import("./components/sections/Contact").then(module => ({ default: module.Contact })));
 
-// Loading Component Sederhana (Muncul bentar pas awal buka/pindah tab)
+// Loading Component Sederhana
 const LoadingFallback = () => (
   <div className="flex h-screen w-full items-center justify-center bg-black text-emerald-500 font-mono text-sm animate-pulse">
     Loading Resources...
@@ -80,17 +83,23 @@ export default function App() {
 
                 {/* Content Body (Ada margin top biar ga ketutupan navbar) */}
                 <div className="mt-32 md:mt-12">
-                  <Suspense fallback={<div className="py-20 text-center text-zinc-500 animate-pulse">Loading Section...</div>}>
-                    {activeTab === "home" && (
+                   {/* Suspense dipisah agar Hero muncul instan tanpa nunggu Projects */}
+                   {activeTab === "home" && (
                       <div className="space-y-20">
+                        {/* Static Import Hero: Render Langsung */}
                         <Hero />
-                        <Projects />
+                        <Suspense fallback={<div className="py-20 text-center text-zinc-500 animate-pulse">Loading Projects...</div>}>
+                           <Projects />
+                        </Suspense>
                       </div>
-                    )}
-                    {activeTab === "about" && <About />}
-                    {activeTab === "services" && <Services />}
-                    {activeTab === "contact" && <Contact />}
-                  </Suspense>
+                   )}
+
+                   {/* Section lain tetap Lazy karena tidak di layar utama */}
+                   <Suspense fallback={<div className="py-20 text-center text-zinc-500 animate-pulse">Loading Section...</div>}>
+                      {activeTab === "about" && <About />}
+                      {activeTab === "services" && <Services />}
+                      {activeTab === "contact" && <Contact />}
+                   </Suspense>
                 </div>
               </div>
             </MaskContainer>
