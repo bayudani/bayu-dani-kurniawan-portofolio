@@ -123,28 +123,28 @@ export const ABOUT_DATA = {
     ]
 };
 export const TESTIMONIALS = [
-    {
-        name: "Rian S.",
-        role: "Mahasiswa Tingkat Akhir",
-        msg: "Bang Bayu gokil sih! Project AR Skripsi gue kelar cuma dalam 5 hari. Dosen pembimbing langsung acc tanpa banyak revisi. Recommended parah buat yang lagi deadline!",
-        rating: 5
-    },
-    {
-        name: "Siti A.",
-        role: "UMKM Owner",
-        msg: "Puas banget sama hasil website landing page-nya. Desainnya clean, loading cepet, dan sesuai banget sama request. Penjualan produk saya jadi naik berkat web baru.",
-        rating: 5
-    },
-    {
-        name: "Dimas P.",
-        role: "IT Staff",
-        msg: "Minta tolong fix bug Laravel yang udah seminggu bikin pusing, eh sama Mas Bayu diselesain cuma 2 jam. Skill backend-nya ngeri abis!",
-        rating: 5
-    },
-    {
-        name: "Budi W.",
-        role: "Startup Founder",
-        msg: "Kerja sama Bayu itu enak, komunikatif dan fast response. UI/UX aplikasi mobile yang dibuat sangat user friendly. Next project pasti kontak lagi.",
-        rating: 4
-    }
+    // {
+    //     name: "Rian S.",
+    //     role: "Mahasiswa Tingkat Akhir",
+    //     msg: "Bang Bayu gokil sih! Project AR Skripsi gue kelar cuma dalam 5 hari. Dosen pembimbing langsung acc tanpa banyak revisi. Recommended parah buat yang lagi deadline!",
+    //     rating: 5
+    // },
+    // {
+    //     name: "Siti A.",
+    //     role: "UMKM Owner",
+    //     msg: "Puas banget sama hasil website landing page-nya. Desainnya clean, loading cepet, dan sesuai banget sama request. Penjualan produk saya jadi naik berkat web baru.",
+    //     rating: 5
+    // },
+    // {
+    //     name: "Dimas P.",
+    //     role: "IT Staff",
+    //     msg: "Minta tolong fix bug Laravel yang udah seminggu bikin pusing, eh sama Mas Bayu diselesain cuma 2 jam. Skill backend-nya ngeri abis!",
+    //     rating: 5
+    // },
+    // {
+    //     name: "Budi W.",
+    //     role: "Startup Founder",
+    //     msg: "Kerja sama Bayu itu enak, komunikatif dan fast response. UI/UX aplikasi mobile yang dibuat sangat user friendly. Next project pasti kontak lagi.",
+    //     rating: 4
+    // }
 ];

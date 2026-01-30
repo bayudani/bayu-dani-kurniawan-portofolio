@@ -10,43 +10,72 @@ import {
     Star,
     Quote,
     Plus,
+    ChevronDown, // Tambahan buat FAQ
+    ChevronUp,   // Tambahan buat FAQ
+    HelpCircle   // Tambahan buat FAQ
 } from "lucide-react";
 import { TESTIMONIALS } from "../../data/mock_profiledata";
 
 export const Services = () => {
-    // --- KONFIGURASI GOOGLE SHEETS & FORM  ---
-    // 1. Link CSV dari: File > Share > Publish to web > CSV
+    // --- KONFIGURASI GOOGLE SHEETS & FORM ---
     const GOOGLE_SHEET_CSV_URL =
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXv8bqT8Wi2AjkV7V4tj2jLAMSWxwyFCqwsE1eFx8HxMEBJkV4T-jYdsdzl37UZj18fAd056NJqTqk/pub?output=csv";
 
-    // 2. Link Google Form buat orang ngisi (dari tombol Send > Link)
     const GOOGLE_FORM_URL = "https://forms.gle/SvDKdonFJAKyRVJZ6";
     // ---------------------------------------------------------
 
     const [reviews, setReviews] = useState(TESTIMONIALS);
     const [loading, setLoading] = useState(true);
+    
+    // State buat Accordion FAQ
+    const [openFaqIndex, setOpenFaqIndex] = useState(null);
+
+    // Fungsi Toggle FAQ
+    const toggleFaq = (index) => {
+        setOpenFaqIndex(openFaqIndex === index ? null : index);
+    };
+
+    // Data FAQ
+    const faqs = [
+        {
+            q: "What is the price range for web/app development?",
+            a: "Pricing is very flexible depending on feature complexity. Simple Landing Pages start at affordable rates, while complex Fullstack Systems are scoped accordingly. Let's chat first, budget is negotiable! 😉"
+        },
+        {
+            q: "How long does the development process take?",
+            a: "It depends on the project scope. Academic assignments or Landing Pages usually take 3-7 days. Large-scale applications typically need 2-4 weeks. Need it ASAP? We can discuss priority delivery."
+        },
+        {
+            q: "Do I get the Source Code?",
+            a: "Yes, 100%! You will receive the Full Source Code, Database, and an installation guide. It's completely yours for future development."
+        },
+        {
+            q: "Is there a revision guarantee?",
+            a: "Absolutely. I provide 2x free minor revisions (bug fixes/small tweaks) after handover. New features outside the initial agreement will incur additional costs."
+        },
+        {
+            q: "What Tech Stack do you usually use?",
+            a: "I specialize in Laravel (PHP), React/Next.js, Flutter (Mobile), and AR (Unity/WebAR). However, I am adaptive if you require a specific stack like Node.js or Native."
+        }
+    ];
 
     // Fungsi Fetch Data dari Google Sheets
     useEffect(() => {
         const fetchReviews = async () => {
             if (GOOGLE_SHEET_CSV_URL.includes("CONTOH")) {
                 setLoading(false);
-                return; // Jangan fetch kalo link belum diganti
+                return;
             }
 
             try {
                 const response = await fetch(GOOGLE_SHEET_CSV_URL);
                 const text = await response.text();
 
-                // Parse CSV Manual (Simple Parser)
-                const rows = text.split("\n").slice(1); // Skip header row
+                // Parse CSV Manual
+                const rows = text.split("\n").slice(1);
                 const newReviews = rows
                     .map((row) => {
-                        // Split by comma, tapi handle kalo ada koma di dalam kutipan (basic regex)
                         const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-
-                        // Sesuaikan index ini sama urutan kolom di Google Sheet lo!
-                        // Biasanya: [0]Timestamp, [1]Nama, [2]Role, [3]Rating, [4]Pesan
                         if (cols.length < 4) return null;
 
                         return {
@@ -56,9 +85,8 @@ export const Services = () => {
                             msg: cols[4]?.replace(/^"|"$/g, "").trim() || "No review text.",
                         };
                     })
-                    .filter((item) => item !== null); // Hapus baris kosong
+                    .filter((item) => item !== null);
 
-                // Gabungin: Review Baru (Sheet) di atas, Review Lama (Mock) di bawah
                 setReviews([...newReviews.reverse(), ...TESTIMONIALS]);
             } catch (error) {
                 console.error("Error fetching reviews:", error);
@@ -129,6 +157,7 @@ export const Services = () => {
 
     return (
         <div className="max-w-6xl animate-in fade-in slide-in-from-bottom-8 duration-700 pt-20 pb-32">
+            
             {/* Header */}
             <div className="mb-16">
                 <h2 className="text-6xl md:text-8xl font-bold text-white mb-6 tracking-tighter">
@@ -187,7 +216,6 @@ export const Services = () => {
                         </p>
                     </div>
 
-                    {/* Tombol Tulis Review -> Arahkan ke Google Form */}
                     <a
                         href={GOOGLE_FORM_URL}
                         target="_blank"
@@ -205,7 +233,6 @@ export const Services = () => {
                             key={idx}
                             className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all"
                         >
-                            {/* Stars */}
                             <div className="flex gap-1 text-yellow-500 mb-4">
                                 {[...Array(Number(testi.rating || 5))].map((_, i) => (
                                     <Star key={i} size={16} fill="currentColor" />
@@ -226,6 +253,43 @@ export const Services = () => {
                                         {testi.role}
                                     </p>
                                 </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* --- NEW SECTION: FAQ --- */}
+            <div className="mb-24">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-10 flex items-center gap-3">
+                    <HelpCircle className="text-emerald-500" />
+                    Frequently Asked Questions
+                </h3>
+                
+                <div className="space-y-4">
+                    {faqs.map((faq, idx) => (
+                        <div 
+                            key={idx} 
+                            className="rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden transition-all duration-300 hover:border-emerald-500/30"
+                        >
+                            <button 
+                                onClick={() => toggleFaq(idx)}
+                                className="w-full flex items-center justify-between p-6 text-left focus:outline-none"
+                            >
+                                <span className="font-bold text-zinc-100 text-lg">{faq.q}</span>
+                                {openFaqIndex === idx ? (
+                                    <ChevronUp className="text-emerald-500" />
+                                ) : (
+                                    <ChevronDown className="text-zinc-500" />
+                                )}
+                            </button>
+                            
+                            <div 
+                                className={`px-6 pb-6 text-zinc-400 leading-relaxed transition-all duration-300 ease-in-out ${
+                                    openFaqIndex === idx ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0 overflow-hidden pb-0'
+                                }`}
+                            >
+                                {faq.a}
                             </div>
                         </div>
                     ))}
