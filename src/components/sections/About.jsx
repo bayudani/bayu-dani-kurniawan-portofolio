@@ -1,59 +1,118 @@
 import React from 'react';
-import { Github, Linkedin, Instagram, Download, Trophy, Briefcase, Calendar, GraduationCap, Award, BookOpen, ExternalLink, Activity } from 'lucide-react';
+import {
+  Github, Linkedin, Instagram, Download, Trophy, Briefcase, Calendar,
+  GraduationCap, Award, BookOpen, ExternalLink, Terminal,
+  Coffee, Monitor, MousePointer2, Smartphone
+} from 'lucide-react';
 import { PROFILE_DATA, ABOUT_DATA } from '../../data/mock_profiledata';
 
-
 export const About = () => {
-  // Mapping sosmed pake data dari mock
   const socialLinks = [
-    {
-      icon: Github,
-      url: PROFILE_DATA.socials.github
-    },
-    {
-      icon: Linkedin,
-      url: PROFILE_DATA.socials.linkedin
-    },
-    {
-      icon: Instagram,
-      url: PROFILE_DATA.socials.instagram
-    }
+    { icon: Github, url: PROFILE_DATA.socials.github },
+    { icon: Linkedin, url: PROFILE_DATA.socials.linkedin },
+    { icon: Instagram, url: PROFILE_DATA.socials.instagram }
   ];
 
-  // Helper untuk dapetin username github dari URL buat chart
-  const githubUsername = PROFILE_DATA.socials.github.split('/').pop();
+  // Helper buat ambil Icon dari SimpleIcons CDN
+  const getTechIcon = (techName) => {
+    const slugMap = {
+      "Express JS": "express",
+      "Laravel": "laravel",
+      "MySQL": "mysql",
+      "Javascript": "javascript",
+      "Tailwind": "tailwindcss",
+      "Unity": "unity",
+      "Flutter": "flutter",
+      "Kotlin": "kotlin",
+      "Redis": "redis",
+      "Node JS": "nodedotjs",
+      "PHP": "php",
+      "React.js": "react",
+      "Figma": "figma",
+      "Git": "git",
+      "MongoDB": "mongodb",
+      "Augmented Reality": "arkit"
+    };
+
+    const slug = slugMap[techName] || techName.toLowerCase();
+    return `https://cdn.simpleicons.org/${slug}/10b981`;
+  };
+
+  // Data Tools
+  const myTools = [
+    { name: "VS Code", icon: "visualstudiocode" },
+    { name: "Figma", icon: "figma" },
+    { name: "Postman", icon: "postman" },
+    { name: "GitHub", icon: "github" },
+    { name: "Chrome DevTools", icon: "googlechrome" },
+    { name: "Spotify", icon: "spotify" },
+  ];
 
   return (
     <div className="max-w-4xl animate-in fade-in slide-in-from-bottom-8 duration-700 pt-20 pb-16">
       <h2 className="text-6xl font-bold text-white mb-12 tracking-tighter">WHO AM I?</h2>
 
-      {/* --- SECTION 1: BIO, STACK & CONNECT --- */}
+      {/* --- SECTION 1: BIO, STACK, TOOLKIT & CONNECT --- */}
       <div className="grid md:grid-cols-2 gap-12 mb-20">
+
+        {/* Left: Bio */}
         <div className="space-y-6 text-zinc-400 leading-relaxed text-lg">
-          <p>
-            {PROFILE_DATA.bio.split('. ')[0]}.
-          </p>
-          <p>
-            {PROFILE_DATA.bio.split('. ').slice(1).join('. ')}
-          </p>
+          <p>{PROFILE_DATA.bio.split('. ')[0]}.</p>
+          <p>{PROFILE_DATA.bio.split('. ').slice(1).join('. ')}</p>
         </div>
 
+        {/* Right: Stack, Toolkit & Connect */}
         <div className="space-y-8">
-          {/* Tech Stack */}
+
+          {/* 1. Tech Stack */}
           <div className="space-y-4">
-            <h3 className="text-sm font-mono text-zinc-500 uppercase tracking-widest border-b border-white/10 pb-2">Tech Stack</h3>
+            <h3 className="text-sm font-mono text-zinc-500 uppercase tracking-widest border-b border-white/10 pb-2">
+              Tech Stack
+            </h3>
             <div className="flex flex-wrap gap-2">
-              {PROFILE_DATA.stack.map(tech => (
-                <span key={tech} className="px-4 py-2 border border-white/10 rounded-lg text-zinc-300 hover:bg-white/5 hover:border-white/30 transition-colors text-sm cursor-default">
-                  {tech}
-                </span>
+              {PROFILE_DATA.stack.map((tech) => (
+                <div
+                  key={tech}
+                  className="group flex items-center gap-2 px-3 py-2 border border-white/10 rounded-lg bg-zinc-900/50 hover:bg-white/5 hover:border-emerald-500/50 transition-all cursor-default"
+                >
+                  <img
+                    src={getTechIcon(tech)}
+                    alt={tech}
+                    className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity"
+                    onError={(e) => { e.target.style.display = 'none' }}
+                  />
+                  <span className="text-xs text-zinc-400 group-hover:text-white transition-colors">
+                    {tech}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Connect & Resume */}
+          {/* 2. My Toolkit (PINDAH KESINI) */}
+          {/* <div className="space-y-4">
+            <h3 className="text-sm font-mono text-zinc-500 uppercase tracking-widest border-b border-white/10 pb-2">
+              My Toolkit
+            </h3>
+            <div className="grid grid-cols-2 gap-2">
+              {myTools.map((tool, i) => (
+                <div key={i} className="flex items-center gap-2 px-3 py-2 border border-white/10 rounded-lg bg-zinc-900/50 hover:bg-white/5 hover:border-emerald-500/50 transition-all group">
+                  <img
+                    src={`https://cdn.simpleicons.org/${tool.icon}/10b981`}
+                    alt={tool.name}
+                    className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity"
+                  />
+                  <span className="text-xs font-medium text-zinc-400 group-hover:text-white">{tool.name}</span>
+                </div>
+              ))}
+            </div>
+          </div> */}
+
+          {/* 3. Connect & Resume */}
           <div className="space-y-4">
-            <h3 className="text-sm font-mono text-zinc-500 uppercase tracking-widest border-b border-white/10 pb-2">Connect & Resume</h3>
+            <h3 className="text-sm font-mono text-zinc-500 uppercase tracking-widest border-b border-white/10 pb-2">
+              Connect & Resume
+            </h3>
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex gap-3">
                 {socialLinks.map((item, i) => (
@@ -62,7 +121,7 @@ export const About = () => {
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3 border border-white/10 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-all hover:scale-110"
+                    className="p-3 border border-white/10 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 hover:border-emerald-500/50 transition-all hover:scale-110"
                   >
                     <item.icon size={20} />
                   </a>
@@ -105,14 +164,12 @@ export const About = () => {
       {/* --- SECTION 3: JOURNEY & ACHIEVEMENTS --- */}
       <div className="grid md:grid-cols-2 gap-12 border-t border-white/10 pt-12">
 
-        {/* LEFT COLUMN: Education & Experience */}
+        {/* LEFT COLUMN */}
         <div className="space-y-12">
-
-          {/* 1. Education */}
+          {/* Education */}
           <div>
             <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-              <GraduationCap className="text-zinc-500" size={24} />
-              Education
+              <GraduationCap className="text-zinc-500" size={24} /> Education
             </h3>
             <div className="space-y-4">
               {ABOUT_DATA.education.map((edu, idx) => (
@@ -128,11 +185,10 @@ export const About = () => {
             </div>
           </div>
 
-          {/* 2. Experience */}
+          {/* Experience */}
           <div>
             <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-              <Briefcase className="text-zinc-500" size={24} />
-              Experience
+              <Briefcase className="text-zinc-500" size={24} /> Experience
             </h3>
             <div className="space-y-8 relative border-l border-zinc-800 ml-3 pl-8 py-2">
               {ABOUT_DATA.experiences.map((exp, idx) => (
@@ -148,19 +204,16 @@ export const About = () => {
               ))}
             </div>
           </div>
-
         </div>
 
-        {/* RIGHT COLUMN: Awards, Certs & Pubs */}
+        {/* RIGHT COLUMN */}
         <div className="space-y-12">
 
-          {/* 1. Awards */}
+          {/* Awards */}
           <div>
             <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-              <Trophy className="text-zinc-500" size={24} />
-              Awards
+              <Trophy className="text-zinc-500" size={24} /> Awards
             </h3>
-            {/* Wrapper div biar bisa mapping banyak award */}
             <div className="space-y-4">
               {ABOUT_DATA.awards.map((award, idx) => (
                 <div key={idx} className="group relative p-6 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all">
@@ -172,9 +225,7 @@ export const About = () => {
                       {award.rank}
                     </span>
                     <h4 className="text-xl font-bold text-white mb-2">{award.title}</h4>
-                    <p className="text-zinc-400 text-sm">
-                      {award.desc}
-                    </p>
+                    <p className="text-zinc-400 text-sm">{award.desc}</p>
                     <div className="mt-4 flex items-center gap-2 text-xs text-zinc-500">
                       <Calendar size={14} />
                       <span>{award.year}</span>
@@ -185,11 +236,11 @@ export const About = () => {
             </div>
           </div>
 
-          {/* 2. Certifications */}
+          
+          {/* Certifications */}
           <div>
             <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-              <Award className="text-zinc-500" size={24} />
-              Certifications
+              <Award className="text-zinc-500" size={24} /> Certifications
             </h3>
             <div className="flex flex-wrap gap-2">
               {ABOUT_DATA.certifications.map((cert, idx) => (
@@ -200,55 +251,24 @@ export const About = () => {
             </div>
           </div>
 
-          {/* 3. GitHub Activity Graph */}
+          {/* Publications */}
           <div>
             <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-              <Activity className="text-zinc-500" size={24} />
-              Coding Activity
-            </h3>
-            <div className="p-4 rounded-xl border border-white/10 bg-white/5 hover:border-emerald-500/30 transition-colors overflow-hidden">
-              <img
-                src={`https://ghchart.rshah.org/10b981/${githubUsername}`}
-                alt="GitHub Contribution Graph"
-                className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity"
-              />
-              <div className="mt-3 flex justify-between items-center text-xs text-zinc-500 font-mono">
-                <span>@{githubUsername}</span>
-                <span className="text-emerald-500">Last Year Contributions</span>
-              </div>
-            </div>
-          </div>
-
-          {/* 4. Publications */}
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-              <BookOpen className="text-zinc-500" size={24} />
-              Publications
+              <BookOpen className="text-zinc-500" size={24} /> Publications
             </h3>
             {ABOUT_DATA.publications.map((pub, idx) => (
-              <a
-                key={idx}
-                href={pub.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block group p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all"
-              >
+              <a key={idx} href={pub.url} target="_blank" rel="noopener noreferrer" className="block group p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all">
                 <div className="flex justify-between items-start mb-2">
                   <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest">{pub.type}</span>
                   <ExternalLink size={16} className="text-zinc-500 group-hover:text-white transition-colors" />
                 </div>
-                <h4 className="text-white font-medium group-hover:text-emerald-400 transition-colors mb-1">
-                  {pub.title}
-                </h4>
-                <p className="text-xs text-zinc-500">
-                  {pub.desc}
-                </p>
+                <h4 className="text-white font-medium group-hover:text-emerald-400 transition-colors mb-1">{pub.title}</h4>
+                <p className="text-xs text-zinc-500">{pub.desc}</p>
               </a>
             ))}
           </div>
 
         </div>
-
       </div>
     </div>
   );
