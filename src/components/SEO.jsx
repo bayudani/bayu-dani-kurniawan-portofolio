@@ -6,12 +6,11 @@ export const SEO = () => {
     const siteTitle = `${PROFILE_DATA.name} - ${PROFILE_DATA.role}`;
     const siteDescription = PROFILE_DATA.bio;
     const siteUrl = "https://bayu-dani-kurniawan-portofolio.vercel.app/";
-    const siteImage = "https://bayu-dani-kurniawan-portofolio.vercel.app/og-image.png"; 
-    const themeColor = "#10b981"; 
+    const siteImage = "https://bayu-dani-kurniawan-portofolio.vercel.app/og-image.png";
+    const themeColor = "#10b981";
 
-    // JSON-LD Schema: Ini biar Google paham konteks  (Person Schema)
-    // Sangat powerful buat SEO Personal Branding
-    const schemaMarkup = {
+    // 1. Schema Person (Sudah ada & Bagus)
+    const personSchema = {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": PROFILE_DATA.name,
@@ -30,6 +29,17 @@ export const SEO = () => {
         "description": siteDescription
     };
 
+    // 2. Schema WebSite (INI YANG PENTING BUAT MENGGANTI LABEL "VERCEL")
+    // Ini memberitahu Google: "Nama situs ini adalah 'Bayu Dani', bukan Vercel."
+    const websiteSchema = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": PROFILE_DATA.name, // Nama yang ingin muncul menggantikan "Vercel"
+        "alternateName": ["Bayu Dani Portfolio", "Portfolio Bayu"], // Alternatif nama
+        "url": siteUrl
+    };
+
+    // 3. Navigation Schema
     const navigationSchema = {
         "@context": "https://schema.org",
         "@type": "ItemList",
@@ -73,40 +83,39 @@ export const SEO = () => {
             <meta name="description" content={siteDescription} />
             <meta name="keywords" content="Web Developer, React Developer, Frontend Engineer, Portfolio, Bayu Dani Kurniawan, Laravel Developer, Fullstack, Bengkalis, Riau, Politeknik Negeri Bengkalis, Mahasiswa, Informatics, Informatics Engineering, Informatics Engineering Politeknik Negeri Bengkalis" />
             <meta name="author" content={PROFILE_DATA.name} />
-            <link rel="canonical" href={siteUrl} />
             <meta name="google-site-verification" content="3d2juzjh7Wv1DFViDmr1qN5U1T43eKmPauDGiv4z6Q8" />
             <meta name="google-site-verification" content="EAOueREsgWASXn46hD-fgO1zoXDE7OCFzodTA1BpclE" />
+            <link rel="canonical" href={siteUrl} />
 
             <meta name="theme-color" content={themeColor} />
 
-            {/* Robots: Izinkan Google mengindeks halaman ini */}
+            {/* Robots */}
             <meta name="robots" content="index, follow" />
             <meta name="googlebot" content="index, follow" />
 
-            {/* --- 2. Open Graph / Facebook / LinkedIn / WhatsApp (Biar ganteng pas di-share) --- */}
-            <meta property="og:type" content="profile" /> {/* Tipe profil karena ini portfolio */}
+            {/* --- 2. Open Graph --- */}
+            <meta property="og:type" content="website" />
             <meta property="og:url" content={siteUrl} />
             <meta property="og:title" content={siteTitle} />
             <meta property="og:description" content={siteDescription} />
             <meta property="og:image" content={siteImage} />
-            <meta property="og:image:width" content="1200" />
-            <meta property="og:image:height" content="630" />
-            <meta property="og:image:alt" content={`Portfolio of ${PROFILE_DATA.name}`} />
-            <meta property="og:locale" content="id_ID" />
             <meta property="og:site_name" content={PROFILE_DATA.name} />
+            <meta property="og:locale" content="id_ID" />
 
-            {/* --- 3. Twitter Cards (Biar keren di X/Twitter) --- */}
+            {/* --- 3. Twitter Cards --- */}
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:creator" content="@bayudani" />
             <meta name="twitter:site" content="@bayudani" />
             <meta name="twitter:title" content={siteTitle} />
             <meta name="twitter:description" content={siteDescription} />
             <meta name="twitter:image" content={siteImage} />
-            <meta name="twitter:image:alt" content={`Portfolio of ${PROFILE_DATA.name}`} />
 
-            {/* --- 4. JSON-LD Structured Data (Resep Rahasia Google) --- */}
+            {/* --- 4. JSON-LD Structured Data --- */}
             <script type="application/ld+json">
-                {JSON.stringify(schemaMarkup)}
+                {JSON.stringify(personSchema)}
+            </script>
+            <script type="application/ld+json">
+                {JSON.stringify(websiteSchema)}
             </script>
             <script type="application/ld+json">
                 {JSON.stringify(navigationSchema)}
