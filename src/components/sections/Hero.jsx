@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Code2 } from 'lucide-react';
 import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
-import { PROFILE_DATA } from '../../data/mock';
+import { PROFILE_DATA } from '../../data/mock_profiledata'; // Sesuaikan path import mock data
 
 // Pastikan path import ini sesuai dengan lokasi file FlipWords yang baru kamu buat tadi
 import { FlipWords } from '../ui/flip-words'; 
@@ -9,13 +9,16 @@ import { FlipWords } from '../ui/flip-words';
 // --- 1. Komponen Kecil untuk Animasi Angka ---
 const AnimatedCounter = ({ value }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "0px" });
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
 
-  // Regex untuk memisahkan angka dan karakter non-angka (misal: "5+" jadi 5 dan "+")
-  const numericValue = parseFloat(value.replace(/[^0-9.]/g, '')) || 0;
-  const suffix = value.replace(/[0-9.]/g, ''); 
+  // Pastikan value jadi string dulu biar aman
+  const stringValue = String(value);
+
+  // Regex untuk memisahkan angka dan karakter non-angka (misal: "2+" jadi 2 dan "+")
+  const numericValue = parseFloat(stringValue.replace(/[^0-9.]/g, '')) || 0;
+  const suffix = stringValue.replace(/[0-9.]/g, ''); 
 
   useEffect(() => {
     if (isInView) {
