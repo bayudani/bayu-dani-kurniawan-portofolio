@@ -11,7 +11,7 @@ export const PROFILE_DATA = {
     bio: "Dedicated Software Engineering student specializing in Web and Mobile Development with strong passion in building impactful digital products. Experienced in developing full-stack applications using Laravel, ExpressJS, Flutter, and Kotlin. Skilled in problem solving, teamwork, and adapting to new technologies quickly.",
     avatar: profileImg,
     stats: [
-        { label: "Years", value: "01" },
+        { label: "Years", value: "2" },
         { label: "Projects", value: "10" },
         { label: "Awards", value: "01" },
     ],
