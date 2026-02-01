@@ -75,6 +75,7 @@ export const SEO = () => {
             <meta name="author" content={PROFILE_DATA.name} />
             <link rel="canonical" href={siteUrl} />
             <meta name="google-site-verification" content="3d2juzjh7Wv1DFViDmr1qN5U1T43eKmPauDGiv4z6Q8" />
+            <meta name="google-site-verification" content="EAOueREsgWASXn46hD-fgO1zoXDE7OCFzodTA1BpclE" />
 
             <meta name="theme-color" content={themeColor} />
 
