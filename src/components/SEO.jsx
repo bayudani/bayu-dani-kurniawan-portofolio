@@ -30,6 +30,41 @@ export const SEO = () => {
         "description": siteDescription
     };
 
+    const navigationSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            {
+                "@type": "SiteNavigationElement",
+                "position": 1,
+                "name": "Home",
+                "description": "Portfolio Highlights and Top Projects",
+                "url": `${siteUrl}#home`
+            },
+            {
+                "@type": "SiteNavigationElement",
+                "position": 2,
+                "name": "About Me",
+                "description": "My professional background, skills, and experience",
+                "url": `${siteUrl}#about`
+            },
+            {
+                "@type": "SiteNavigationElement",
+                "position": 3,
+                "name": "Services",
+                "description": "Web Development, Mobile Apps, and AR Solutions",
+                "url": `${siteUrl}#services`
+            },
+            {
+                "@type": "SiteNavigationElement",
+                "position": 4,
+                "name": "Contact",
+                "description": "Get in touch for collaborations",
+                "url": `${siteUrl}#contact`
+            }
+        ]
+    };
+
     return (
         <Helmet>
             {/* --- 1. Standard Metadata --- */}
@@ -71,6 +106,9 @@ export const SEO = () => {
             {/* --- 4. JSON-LD Structured Data (Resep Rahasia Google) --- */}
             <script type="application/ld+json">
                 {JSON.stringify(schemaMarkup)}
+            </script>
+            <script type="application/ld+json">
+                {JSON.stringify(navigationSchema)}
             </script>
         </Helmet>
     );

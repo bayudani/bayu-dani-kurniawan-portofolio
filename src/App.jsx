@@ -3,33 +3,35 @@ import { HelmetProvider } from "react-helmet-async";
 import { NavRail } from "./components/layout/NavRail";
 import { PROFILE_DATA } from "./data/mock_profiledata";
 import { SEO } from "./components/SEO";
+import { CommandMenu } from "./components/ui/CommandMenu";
 
-// --- PERBAIKAN PENTING: HERO WAJIB STATIC IMPORT (LCP Fix) ---
-// Hero tidak boleh lazy load agar skor Performance LCP bisa 100.
 import { Hero } from "./components/sections/Hero";
 
-// --- LAZY LOAD KOMPONEN BERAT (Optimasi Lighthouse) ---
-// Browser ga perlu download semua ini di awal loading.
+// --- LAZY LOAD KOMPONEN BERAT (Optimasi Bundle Size) ---
 const AuroraBackground = lazy(() => import("./components/ui/AuroraBackground").then(module => ({ default: module.AuroraBackground })));
 const BackgroundRippleEffect = lazy(() => import("@/components/ui/background-ripple-effect").then(module => ({ default: module.BackgroundRippleEffect })));
 const MaskContainer = lazy(() => import("@/components/ui/svg-mask-effect").then(module => ({ default: module.MaskContainer })));
 const Boxes = lazy(() => import("@/components/ui/background-boxes").then(module => ({ default: module.Boxes })));
 
-// Section Halaman di-lazy load (Kecuali Hero)
+// Lazy Load Section Lain (Off-screen content)
 const Projects = lazy(() => import("./components/sections/Projects").then(module => ({ default: module.Projects })));
 const About = lazy(() => import("./components/sections/About").then(module => ({ default: module.About })));
 const Services = lazy(() => import("./components/sections/Services").then(module => ({ default: module.Services })));
 const Contact = lazy(() => import("./components/sections/Contact").then(module => ({ default: module.Contact })));
 
-// Loading Component Sederhana
+// Lazy Load Modal Detail Project
+const ProjectDetail = lazy(() => import("./components/sections/ProjectDetail").then(module => ({ default: module.ProjectDetail })));
+
+// Loading Spinner Minimalis
 const LoadingFallback = () => (
-  <div className="flex h-screen w-full items-center justify-center bg-black text-emerald-500 font-mono text-sm animate-pulse">
-    Loading Resources...
+  <div className="flex h-64 w-full items-center justify-center">
+    <div className="w-8 h-8 border-4 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin"></div>
   </div>
 );
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("home");
+  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -41,37 +43,52 @@ export default function App() {
       
       <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black overflow-x-hidden relative">
         
-        {/* Layer 1: Backgrounds (Lazy Loaded) */}
+        {/* --- MODAL PROJECT DETAIL (Z-INDEX PALING TINGGI) --- */}
+        <Suspense fallback={null}>
+          {selectedProject && (
+            <ProjectDetail 
+              project={selectedProject} 
+              onClose={() => setSelectedProject(null)} 
+            />
+          )}
+        </Suspense>
+
+        {/* --- BACKGROUND LAYERS --- */}
         <Suspense fallback={null}>
             <div className="fixed inset-0 z-0">
                 <AuroraBackground />
             </div>
-            {/* Ripple dimatikan di mobile biar ringan, nyala di desktop (md:block) */}
+            {/* Ripple cuma di desktop biar mobile ga berat */}
             <div className="fixed inset-0 z-0 pointer-events-none hidden md:block">
                 <BackgroundRippleEffect />
             </div>
         </Suspense>
 
-        {/* Layer 2: Navigation (Penting, load langsung) */}
+        {/* --- NAVIGATION --- */}
         <NavRail active={activeTab} setActive={setActiveTab} />
 
+        {/* --- COMMAND MENU --- */}
+        <Suspense fallback={null}>
+          <CommandMenu activeTab={activeTab} setActiveTab={setActiveTab} />
+        </Suspense>
+
+        {/* --- MAIN CONTENT WRAPPER --- */}
         <main className="relative z-10 pl-0 min-h-screen">
           
-          {/* Layer 3: Wrapper Utama Konten */}
-          <Suspense fallback={<LoadingFallback />}>
+          <Suspense fallback={<div className="h-screen w-full bg-black/50" />}>
             <MaskContainer>
               
-              {/* Layer 4: Background Boxes (Z-0) */}
+              {/* Background Boxes (Subtle Pattern) */}
               <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                  <div className="pointer-events-auto"> 
                     <Boxes />
                  </div>
               </div>
 
-              {/* Layer 5: Konten & Navbar (Z-20 biar bisa diklik) */}
+              {/* Konten Utama */}
               <div className="relative z-20 max-w-5xl mx-auto px-6 pb-32">
                 
-                {/* Header Navbar (Fixed Position) */}
+                {/* Fixed Navbar / Brand */}
                 <div className="fixed top-0 left-0 right-0 px-6 py-6 z-50 flex justify-between items-center bg-black/40 backdrop-blur-xl border-b border-white/5 transition-all">
                   <div className="font-bold tracking-tighter text-xl pointer-events-auto text-white">
                     {PROFILE_DATA.name}
@@ -81,25 +98,29 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Content Body (Ada margin top biar ga ketutupan navbar) */}
-                <div className="mt-32 md:mt-12">
-                   {/* Suspense dipisah agar Hero muncul instan tanpa nunggu Projects */}
+                {/* Dynamic Content Area */}
+                <div className="mt-32 md:mt-32 min-h-[60vh]">
+                   
+                   {/* HOME TAB: Hero + Projects */}
                    {activeTab === "home" && (
                       <div className="space-y-20">
-                        {/* Static Import Hero: Render Langsung */}
+                        {/* Hero Render Langsung (No Suspense) */}
                         <Hero />
-                        <Suspense fallback={<div className="py-20 text-center text-zinc-500 animate-pulse">Loading Projects...</div>}>
-                           <Projects />
+                        
+                        {/* Projects Lazy Load */}
+                        <Suspense fallback={<LoadingFallback />}>
+                            <Projects onSelectProject={setSelectedProject} />
                         </Suspense>
                       </div>
                    )}
 
-                   {/* Section lain tetap Lazy karena tidak di layar utama */}
-                   <Suspense fallback={<div className="py-20 text-center text-zinc-500 animate-pulse">Loading Section...</div>}>
+                   {/* TAB LAINNYA: Full Lazy Load */}
+                   <Suspense fallback={<LoadingFallback />}>
                       {activeTab === "about" && <About />}
                       {activeTab === "services" && <Services />}
                       {activeTab === "contact" && <Contact />}
                    </Suspense>
+
                 </div>
               </div>
             </MaskContainer>
