@@ -6,6 +6,7 @@ import { PROFILE_DATA } from "./data/mock_profiledata";
 import { SEO } from "./components/SEO";
 import { CommandMenu } from "./components/ui/CommandMenu";
 import { Hero } from "./components/sections/Hero";
+import { SpamLikeButton } from "./components/ui/SpamLikeButton";
 
 // Import Widget Musik Baru
 import { MusicWidget } from "./components/ui/MusicWidget";
@@ -63,6 +64,7 @@ export default function App() {
         {/* --- WIDGET MUSIK (FIXED POSITION) --- */}
         {/* Ini bakal muncul di pojok kanan bawah secara otomatis */}
         <MusicWidget className="fixed bottom-12 right-4 z-50" />
+        <SpamLikeButton />
 
         {/* --- MODAL PROJECT DETAIL --- */}
         <AnimatePresence>
