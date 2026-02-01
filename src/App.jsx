@@ -1,39 +1,53 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
+import { AnimatePresence, motion } from "framer-motion"; 
 import { NavRail } from "./components/layout/NavRail";
 import { PROFILE_DATA } from "./data/mock_profiledata";
 import { SEO } from "./components/SEO";
 import { CommandMenu } from "./components/ui/CommandMenu";
-
 import { Hero } from "./components/sections/Hero";
 
-// --- LAZY LOAD KOMPONEN BERAT (Optimasi Bundle Size) ---
+// --- LAZY LOAD KOMPONEN BERAT ---
 const AuroraBackground = lazy(() => import("./components/ui/AuroraBackground").then(module => ({ default: module.AuroraBackground })));
 const BackgroundRippleEffect = lazy(() => import("@/components/ui/background-ripple-effect").then(module => ({ default: module.BackgroundRippleEffect })));
 const MaskContainer = lazy(() => import("@/components/ui/svg-mask-effect").then(module => ({ default: module.MaskContainer })));
 const Boxes = lazy(() => import("@/components/ui/background-boxes").then(module => ({ default: module.Boxes })));
 
-// Lazy Load Section Lain (Off-screen content)
+// Lazy Load Section
 const Projects = lazy(() => import("./components/sections/Projects").then(module => ({ default: module.Projects })));
 const About = lazy(() => import("./components/sections/About").then(module => ({ default: module.About })));
 const Services = lazy(() => import("./components/sections/Services").then(module => ({ default: module.Services })));
 const Contact = lazy(() => import("./components/sections/Contact").then(module => ({ default: module.Contact })));
-
-// Lazy Load Modal Detail Project
 const ProjectDetail = lazy(() => import("./components/sections/ProjectDetail").then(module => ({ default: module.ProjectDetail })));
 
-// Loading Spinner Minimalis
+// Loading Spinner
 const LoadingFallback = () => (
   <div className="flex h-64 w-full items-center justify-center">
     <div className="w-8 h-8 border-4 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin"></div>
   </div>
 );
 
+// --- 2. Komponen PageTransition (Inline) ---
+const PageTransition = ({ children, className }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 export default function App() {
   const [activeTab, setActiveTab] = useState("home");
   const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
+    // Scroll ke atas setiap ganti tab 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [activeTab]);
 
@@ -43,22 +57,23 @@ export default function App() {
       
       <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black overflow-x-hidden relative">
         
-        {/* --- MODAL PROJECT DETAIL (Z-INDEX PALING TINGGI) --- */}
-        <Suspense fallback={null}>
-          {selectedProject && (
-            <ProjectDetail 
-              project={selectedProject} 
-              onClose={() => setSelectedProject(null)} 
-            />
-          )}
-        </Suspense>
+        {/* --- MODAL PROJECT DETAIL --- */}
+        <AnimatePresence>
+            {selectedProject && (
+            <Suspense fallback={null}>
+                <ProjectDetail 
+                project={selectedProject} 
+                onClose={() => setSelectedProject(null)} 
+                />
+            </Suspense>
+            )}
+        </AnimatePresence>
 
         {/* --- BACKGROUND LAYERS --- */}
         <Suspense fallback={null}>
             <div className="fixed inset-0 z-0">
                 <AuroraBackground />
             </div>
-            {/* Ripple cuma di desktop biar mobile ga berat */}
             <div className="fixed inset-0 z-0 pointer-events-none hidden md:block">
                 <BackgroundRippleEffect />
             </div>
@@ -78,7 +93,6 @@ export default function App() {
           <Suspense fallback={<div className="h-screen w-full bg-black/50" />}>
             <MaskContainer>
               
-              {/* Background Boxes (Subtle Pattern) */}
               <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                  <div className="pointer-events-auto"> 
                     <Boxes />
@@ -98,28 +112,49 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Dynamic Content Area */}
+                {/* Dynamic Content Area dengan Transisi */}
                 <div className="mt-32 md:mt-32 min-h-[60vh]">
-                   
-                   {/* HOME TAB: Hero + Projects */}
-                   {activeTab === "home" && (
-                      <div className="space-y-20">
-                        {/* Hero Render Langsung (No Suspense) */}
-                        <Hero />
+                    
+                    {/* 3. Bungkus Switch Logic dengan AnimatePresence */}
+                    <AnimatePresence mode="wait">
                         
-                        {/* Projects Lazy Load */}
-                        <Suspense fallback={<LoadingFallback />}>
-                            <Projects onSelectProject={setSelectedProject} />
-                        </Suspense>
-                      </div>
-                   )}
+                        {activeTab === "home" && (
+                            <PageTransition key="home" className="w-full">
+                                <div className="space-y-20">
+                                    <Hero />
+                                    <Suspense fallback={<LoadingFallback />}>
+                                        <Projects onSelectProject={setSelectedProject} />
+                                    </Suspense>
+                                </div>
+                            </PageTransition>
+                        )}
 
-                   {/* TAB LAINNYA: Full Lazy Load */}
-                   <Suspense fallback={<LoadingFallback />}>
-                      {activeTab === "about" && <About />}
-                      {activeTab === "services" && <Services />}
-                      {activeTab === "contact" && <Contact />}
-                   </Suspense>
+                        {activeTab === "about" && (
+                            <PageTransition key="about" className="w-full">
+                                <Suspense fallback={<LoadingFallback />}>
+                                    <About />
+                                </Suspense>
+                            </PageTransition>
+                        )}
+
+                        {activeTab === "services" && (
+                            <PageTransition key="services" className="w-full">
+                                <Suspense fallback={<LoadingFallback />}>
+                                    <Services />
+                                </Suspense>
+                            </PageTransition>
+                        )}
+
+                        {activeTab === "contact" && (
+                            <PageTransition key="contact" className="w-full">
+                                <Suspense fallback={<LoadingFallback />}>
+                                    <Contact />
+                                </Suspense>
+                            </PageTransition>
+                        )}
+
+                    </AnimatePresence>
+                    {/* End AnimatePresence */}
 
                 </div>
               </div>
