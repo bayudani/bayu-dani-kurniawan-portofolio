@@ -56,7 +56,7 @@ export const MusicWidget = ({ className }) => {
             animate={{ opacity: 1, y: 0 }}
             // FIX: Hapus 'hidden md:flex', ganti jadi 'flex' biar muncul di HP.
             // Tambahkan ${className} agar styling dari parent (App.js) bisa masuk.
-            className={`fixed bottom-24 right-4 z-50 group flex items-center gap-3 bg-black/60 backdrop-blur-md border border-white/10 pr-4 pl-2 py-2 rounded-full hover:bg-black/80 transition-colors shadow-2xl ${className || ''}`}
+            className={`fixed bottom-34 right-4 z-50 group flex items-center gap-3 bg-black/60 backdrop-blur-md border border-white/10 pr-4 pl-2 py-2 rounded-full hover:bg-black/80 transition-colors shadow-2xl ${className || ''}`}
         >
             <div className={`relative w-10 h-10 rounded-full overflow-hidden border border-white/20 ${song.isPlaying ? 'animate-spin-slow' : ''}`}>
                 {song.image ? (

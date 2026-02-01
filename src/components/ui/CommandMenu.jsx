@@ -37,9 +37,9 @@ export const CommandMenu = ({ activeTab, setActiveTab }) => {
         onClick={() => setOpen(true)}
         className="fixed z-50 flex items-center justify-center transition-all shadow-2xl
           /* Mobile Styles (Floating Button) */
-          bottom-24 left-6 w-12 h-12 rounded-full bg-emerald-500 text-black border border-emerald-400
+          bottom-24 right-6 w-12 h-12 rounded-full bg-emerald-500 text-black border border-emerald-400
           /* Desktop Styles (Badge) */
-          md:bottom-6 md:left-6 md:w-auto md:h-auto md:px-4 md:py-2 md:rounded-lg md:bg-zinc-900/80 md:text-zinc-400 md:border-white/10 md:backdrop-blur-md md:hover:text-white md:hover:border-emerald-500/50
+          md:bottom-6 md:right-6 md:w-auto md:h-auto md:px-4 md:py-2 md:rounded-lg md:bg-zinc-900/80 md:text-zinc-400 md:border-white/10 md:backdrop-blur-md md:hover:text-white md:hover:border-emerald-500/50
         "
       >
         {/* Ikon Search (Muncul di Mobile & Desktop) */}
