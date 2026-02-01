@@ -1,22 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Code2 } from 'lucide-react';
 import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
-import { PROFILE_DATA } from '../../data/mock_profiledata'; // Sesuaikan path import mock data
-
-// Pastikan path import ini sesuai dengan lokasi file FlipWords yang baru kamu buat tadi
+import { PROFILE_DATA } from '../../data/mock_profiledata';
 import { FlipWords } from '../ui/flip-words'; 
 
-// --- 1. Komponen Kecil untuk Animasi Angka ---
+// Import Hook Easter Egg
+import { useEasterEgg } from '../../hooks/use-easter-egg';
+
+// --- Komponen Kecil untuk Animasi Angka ---
 const AnimatedCounter = ({ value }) => {
   const ref = useRef(null);
+  // Margin 0px agar animasi langsung jalan saat elemen terlihat sedikit saja
   const isInView = useInView(ref, { once: true, margin: "0px" });
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
-
-  // Pastikan value jadi string dulu biar aman
   const stringValue = String(value);
-
-  // Regex untuk memisahkan angka dan karakter non-angka (misal: "2+" jadi 2 dan "+")
   const numericValue = parseFloat(stringValue.replace(/[^0-9.]/g, '')) || 0;
   const suffix = stringValue.replace(/[0-9.]/g, ''); 
 
@@ -35,8 +33,25 @@ const AnimatedCounter = ({ value }) => {
 };
 
 export const Hero = () => {
-  // Daftar kata-kata yang akan di-flip
   const titles = ["WEB DEVELOPER", "MOBILE DEVELOPER", "FULLSTACK DEV"];
+  
+  // --- LOGIC EASTER EGG (TAP 5x) ---
+  const { triggerConfetti } = useEasterEgg(); 
+  const [tapCount, setTapCount] = useState(0);
+
+  const handleAvatarClick = () => {
+    setTapCount(prev => prev + 1);
+    
+    // Reset tap count kalau user berhenti ngetap selama 1 detik
+    // (User harus tap 5x berturut-turut dengan cepat)
+    setTimeout(() => setTapCount(0), 1000);
+
+    // Kalau sudah 5x tap... BOOM!
+    if (tapCount + 1 === 5) {
+      triggerConfetti();
+      setTapCount(0); // Reset hitungan
+    }
+  };
 
   return (
     <section id="home" className="pt-10 md:pt-20 space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
@@ -49,13 +64,12 @@ export const Hero = () => {
                 AVAILABLE FOR FREELANCE
               </div>
               
-              {/* --- 2. Implementasi FlipWords --- */}
-              {/* Container h1 tetap ada untuk menjaga struktur SEO dan Layout */}
+              {/* FlipWords Title */}
               <div className="text-5xl md:text-8xl font-bold tracking-tighter text-white leading-[0.9] antialiased min-h-[120px] md:min-h-[160px] flex items-center">
                  <FlipWords 
                     words={titles}
-                    duration={2500} // Ganti kata setiap 2.5 detik
-                    className="text-white !p-0 !m-0" // Reset padding bawaan jika perlu
+                    duration={2500}
+                    className="text-white !p-0 !m-0"
                  />
               </div>
               
@@ -63,12 +77,11 @@ export const Hero = () => {
                 {PROFILE_DATA.bio}
               </p>
               
-              {/* --- 3. Implementasi Counting Stats --- */}
+              {/* Stats Counter */}
               <div className="flex gap-12 pt-4">
                 {PROFILE_DATA.stats.map((stat, index) => (
                   <div key={stat.label}>
                       <div className="text-3xl font-bold text-white font-mono flex">
-                        {/* Panggil komponen AnimatedCounter di sini */}
                         <AnimatedCounter value={stat.value} />
                       </div>
                       <div className="text-xs text-zinc-300 uppercase tracking-widest mt-1 font-semibold">
@@ -79,11 +92,21 @@ export const Hero = () => {
               </div>
           </div>
           
-          {/* Avatar Section (Tidak berubah, tetap keren) */}
-          <div className="relative group md:mt-12 self-center md:self-auto">
+          {/* Avatar Section dengan Event Handler */}
+          {/* Tambahkan onClick dan cursor-pointer di sini */}
+          <div 
+            className="relative group md:mt-12 self-center md:self-auto cursor-pointer select-none" 
+            onClick={handleAvatarClick}
+            title="Tap 5x for a surprise! 🎉"
+          >
               <div className="absolute -inset-1 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-[2rem] blur-[30px] opacity-20 group-hover:opacity-40 transition-opacity duration-700" />
-              <div className="relative w-32 h-32 md:w-64 md:h-64 rotate-3 group-hover:rotate-0 transition-all duration-500 ease-out">
-                  
+              
+              {/* Bungkus gambar dengan motion.div biar ada efek 'mumbul' pas diklik */}
+              <motion.div 
+                 whileTap={{ scale: 0.95, rotate: 2 }}
+                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                 className="relative w-32 h-32 md:w-64 md:h-64 rotate-3 group-hover:rotate-0 transition-all duration-500 ease-out"
+              >
                   <img 
                       src={PROFILE_DATA.avatar} 
                       alt="Professional portrait of Bayu Dani Kurniawan" 
@@ -91,13 +114,14 @@ export const Hero = () => {
                       height="400"   
                       loading="eager" 
                       fetchpriority="high"
-                      className="w-full h-full object-cover rounded-[2rem] border border-white/20 shadow-2xl grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900"
+                      className="w-full h-full object-cover rounded-[2rem] border border-white/20 shadow-2xl grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-900 pointer-events-none" 
+                      // pointer-events-none di img biar tap event nembus ke div wrapper
                   />
                   
                   <div className="absolute -bottom-4 -left-4 p-3 bg-zinc-500 rounded-2xl border border-white/10 shadow-xl hidden md:block">
                       <Code2 size={24} className="text-white" />
                   </div>
-              </div>
+              </motion.div>
           </div>
        </div>
     </section>
