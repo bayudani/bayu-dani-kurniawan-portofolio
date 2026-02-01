@@ -12,7 +12,6 @@ export const MusicWidget = ({ className }) => {
     useEffect(() => {
         const fetchMusic = async () => {
             try {
-                /
                 if (!USERNAME || !API_KEY) {
                     console.warn("LastFM API Key or Username is missing");
                     setLoading(false);
