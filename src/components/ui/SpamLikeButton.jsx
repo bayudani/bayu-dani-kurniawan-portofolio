@@ -85,7 +85,7 @@ export const SpamLikeButton = () => {
   const displayCount = likes + pendingLikes;
 
   return (
-    <div className="fixed top-25 left-4 z-50 flex flex-col items-end gap-2">
+    <div className="fixed top-25 left-6 z-50 flex flex-col items-end gap-2">
       
       {/* Badge Angka Spam (+5, +10, dst) */}
       <AnimatePresence>
