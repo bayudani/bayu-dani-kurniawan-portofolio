@@ -11,6 +11,7 @@ import { Hero } from "./components/sections/Hero";
 import { MusicWidget } from "./components/ui/MusicWidget";
 
 // --- LAZY LOAD KOMPONEN BERAT ---
+const Guestbook = lazy(() => import("./components/sections/Guestbook").then(module => ({ default: module.Guestbook })));
 const AuroraBackground = lazy(() => import("./components/ui/AuroraBackground").then(module => ({ default: module.AuroraBackground })));
 const BackgroundRippleEffect = lazy(() => import("@/components/ui/background-ripple-effect").then(module => ({ default: module.BackgroundRippleEffect })));
 const MaskContainer = lazy(() => import("@/components/ui/svg-mask-effect").then(module => ({ default: module.MaskContainer })));
@@ -154,6 +155,13 @@ export default function App() {
                       <PageTransition key="contact" className="w-full">
                         <Suspense fallback={<LoadingFallback />}>
                           <Contact />
+                        </Suspense>
+                      </PageTransition>
+                    )}
+                    {activeTab === "guestbook" && (
+                      <PageTransition key="guestbook" className="w-full">
+                        <Suspense fallback={<LoadingFallback />}>
+                          <Guestbook />
                         </Suspense>
                       </PageTransition>
                     )}

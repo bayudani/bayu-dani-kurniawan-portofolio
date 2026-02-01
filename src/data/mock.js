@@ -23,7 +23,7 @@ export const PROFILE_DATA = {
   
   avatar: profileImg,
   stats: [
-    { label: "Years", value: "01+" },
+    { label: "Years", value: "2" },
     { label: "Projects", value: "10" }, 
     { label: "Awards", value: "01" },
   ],
