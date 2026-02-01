@@ -2,10 +2,13 @@
 import React, { useState } from 'react';
 import { 
   Github, Linkedin, Instagram, Download, Trophy, Briefcase, Calendar, 
-  GraduationCap, Award, BookOpen, ExternalLink, Terminal, 
+  GraduationCap, Award, BookOpen, ExternalLink, Terminal, Activity,
   Code2, PenTool, GitBranch, Box, Send, Coffee, Monitor, MousePointer2, Smartphone
 } from 'lucide-react';
+// Pastikan path ini sesuai dengan struktur project Bro Bayu
 import { PROFILE_DATA, ABOUT_DATA } from '../../data/mock_profiledata';
+
+// --- MAIN COMPONENT ---
 
 export const About = () => {
   const [activeSubTab, setActiveSubTab] = useState('bio');
@@ -15,6 +18,18 @@ export const About = () => {
     { icon: Linkedin, url: PROFILE_DATA.socials.linkedin },
     { icon: Instagram, url: PROFILE_DATA.socials.instagram }
   ];
+
+  // Helper: Ambil Username GitHub dari URL secara otomatis
+  const getGithubUsername = (url) => {
+    try {
+        const urlObj = new URL(url);
+        return urlObj.pathname.replace(/^\/|\/$/g, '');
+    } catch (e) {
+        return "bayudanikurniawan"; // Fallback kalau URL error
+    }
+  };
+  
+  const githubUsername = getGithubUsername(PROFILE_DATA.socials.github);
 
   // Helper Icon Tech Stack
   const getTechIcon = (techName) => {
@@ -111,6 +126,57 @@ export const About = () => {
             </div>
          </div>
       </div>
+    </div>
+  );
+
+  // --- TAB BARU: ACTIVITY (DIPERBARUI DENGAN CHART GAMBAR) ---
+  const ActivityTab = () => (
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="grid md:grid-cols-3 gap-8">
+            {/* Left: Intro / Context */}
+            <div className="md:col-span-1 space-y-6">
+                <h3 className="text-2xl font-bold text-white flex items-center gap-3">
+                    <Terminal className="text-zinc-500" size={24} /> 
+                    Coding Activity
+                </h3>
+                <p className="text-zinc-400 leading-relaxed">
+                    Software development is not just about writing code, it's about consistency. Here is a real-time snapshot of my open-source contributions.
+                </p>
+                
+                <div className="p-4 rounded-xl border border-white/5 bg-white/[0.02]">
+                    <h4 className="text-white font-bold mb-2">Did You Know?</h4>
+                    <p className="text-xs text-zinc-500">
+                        These stats are fetched dynamically. The chart shows my actual contribution graph from GitHub for the past year.
+                    </p>
+                </div>
+
+                <a 
+                    href={PROFILE_DATA.socials.github} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-zinc-900 border border-white/10 text-zinc-400 hover:text-white hover:border-emerald-500/50 transition-all group"
+                >
+                    <Github size={18} />
+                    <span className="text-sm font-medium">View GitHub Profile</span>
+                    <ExternalLink size={14} className="opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
+                </a>
+            </div>
+
+            {/* Right: The Widget (Updated to Image Chart) */}
+            <div className="md:col-span-2">
+                <div className="p-4 rounded-xl border border-white/10 bg-white/5 hover:border-emerald-500/30 transition-colors overflow-hidden">
+                    <img 
+                      src={`https://ghchart.rshah.org/10b981/${githubUsername}`} 
+                      alt="GitHub Contribution Graph"
+                      className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity"
+                    />
+                    <div className="mt-3 flex justify-between items-center text-xs text-zinc-500 font-mono">
+                       <span>@{githubUsername}</span>
+                       <span className="text-emerald-500">Last Year Contributions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
   );
 
@@ -229,6 +295,7 @@ export const About = () => {
       <div className="flex overflow-x-auto pb-4 mb-8 gap-2 no-scrollbar border-b border-white/10">
         {[
           { id: 'bio', label: 'Bio & Stack' },
+          { id: 'activity', label: 'Activity' },
           { id: 'journey', label: 'Journey' },
           { id: 'achievements', label: 'Achievements' }
         ].map((tab) => (
@@ -249,6 +316,7 @@ export const About = () => {
       {/* --- TAB CONTENT --- */}
       <div className="min-h-[400px]">
         {activeSubTab === 'bio' && <BioTab />}
+        {activeSubTab === 'activity' && <ActivityTab />} 
         {activeSubTab === 'journey' && <JourneyTab />}
         {activeSubTab === 'achievements' && <AchievementsTab />}
       </div>

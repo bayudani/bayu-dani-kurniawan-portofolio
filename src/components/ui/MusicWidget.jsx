@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Music, Disc3, ExternalLink } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Disc3 } from 'lucide-react';
 
 const USERNAME = import.meta.env.VITE_LASTFM_USERNAME;
 const API_KEY = import.meta.env.VITE_LASTFM_API_KEY;
-export const MusicWidget = () => {
+
+export const MusicWidget = ({ className }) => {
     const [song, setSong] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchMusic = async () => {
             try {
+                /
+                if (!USERNAME || !API_KEY) {
+                    console.warn("LastFM API Key or Username is missing");
+                    setLoading(false);
+                    return;
+                }
+
                 const res = await fetch(
                     `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USERNAME}&api_key=${API_KEY}&format=json&limit=1`
                 );
                 const data = await res.json();
-                const track = data.recenttracks.track[0];
+                const track = data.recenttracks?.track?.[0];
 
                 if (track) {
                     setSong({
@@ -47,7 +55,9 @@ export const MusicWidget = () => {
             rel="noopener noreferrer"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="fixed bottom-24 right-4 z-50 group hidden md:flex items-center gap-3 bg-black/60 backdrop-blur-md border border-white/10 pr-4 pl-2 py-2 rounded-full hover:bg-black/80 transition-colors shadow-2xl"
+            // FIX: Hapus 'hidden md:flex', ganti jadi 'flex' biar muncul di HP.
+            // Tambahkan ${className} agar styling dari parent (App.js) bisa masuk.
+            className={`fixed bottom-24 right-4 z-50 group flex items-center gap-3 bg-black/60 backdrop-blur-md border border-white/10 pr-4 pl-2 py-2 rounded-full hover:bg-black/80 transition-colors shadow-2xl ${className || ''}`}
         >
             <div className={`relative w-10 h-10 rounded-full overflow-hidden border border-white/20 ${song.isPlaying ? 'animate-spin-slow' : ''}`}>
                 {song.image ? (
