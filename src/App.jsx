@@ -1,11 +1,14 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
-import { AnimatePresence, motion } from "framer-motion"; 
+import { AnimatePresence, motion } from "framer-motion";
 import { NavRail } from "./components/layout/NavRail";
 import { PROFILE_DATA } from "./data/mock_profiledata";
 import { SEO } from "./components/SEO";
 import { CommandMenu } from "./components/ui/CommandMenu";
 import { Hero } from "./components/sections/Hero";
+
+// Import Widget Musik Baru
+import { MusicWidget } from "./components/ui/MusicWidget";
 
 // --- LAZY LOAD KOMPONEN BERAT ---
 const AuroraBackground = lazy(() => import("./components/ui/AuroraBackground").then(module => ({ default: module.AuroraBackground })));
@@ -27,7 +30,7 @@ const LoadingFallback = () => (
   </div>
 );
 
-// --- 2. Komponen PageTransition (Inline) ---
+// --- Komponen PageTransition (Inline) ---
 const PageTransition = ({ children, className }) => {
   return (
     <motion.div
@@ -47,36 +50,39 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
-    // Scroll ke atas setiap ganti tab 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [activeTab]);
 
   return (
     <HelmetProvider>
       <SEO />
-      
+
       <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black overflow-x-hidden relative">
-        
+
+        {/* --- WIDGET MUSIK (FIXED POSITION) --- */}
+        {/* Ini bakal muncul di pojok kanan bawah secara otomatis */}
+        <MusicWidget className="fixed bottom-12 right-4 z-50" />
+
         {/* --- MODAL PROJECT DETAIL --- */}
         <AnimatePresence>
-            {selectedProject && (
+          {selectedProject && (
             <Suspense fallback={null}>
-                <ProjectDetail 
-                project={selectedProject} 
-                onClose={() => setSelectedProject(null)} 
-                />
+              <ProjectDetail
+                project={selectedProject}
+                onClose={() => setSelectedProject(null)}
+              />
             </Suspense>
-            )}
+          )}
         </AnimatePresence>
 
         {/* --- BACKGROUND LAYERS --- */}
         <Suspense fallback={null}>
-            <div className="fixed inset-0 z-0">
-                <AuroraBackground />
-            </div>
-            <div className="fixed inset-0 z-0 pointer-events-none hidden md:block">
-                <BackgroundRippleEffect />
-            </div>
+          <div className="fixed inset-0 z-0">
+            <AuroraBackground />
+          </div>
+          <div className="fixed inset-0 z-0 pointer-events-none hidden md:block">
+            <BackgroundRippleEffect />
+          </div>
         </Suspense>
 
         {/* --- NAVIGATION --- */}
@@ -89,19 +95,19 @@ export default function App() {
 
         {/* --- MAIN CONTENT WRAPPER --- */}
         <main className="relative z-10 pl-0 min-h-screen">
-          
+
           <Suspense fallback={<div className="h-screen w-full bg-black/50" />}>
             <MaskContainer>
-              
+
               <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                 <div className="pointer-events-auto"> 
-                    <Boxes />
-                 </div>
+                <div className="pointer-events-auto">
+                  <Boxes />
+                </div>
               </div>
 
               {/* Konten Utama */}
               <div className="relative z-20 max-w-5xl mx-auto px-6 pb-32">
-                
+
                 {/* Fixed Navbar / Brand */}
                 <div className="fixed top-0 left-0 right-0 px-6 py-6 z-50 flex justify-between items-center bg-black/40 backdrop-blur-xl border-b border-white/5 transition-all">
                   <div className="font-bold tracking-tighter text-xl pointer-events-auto text-white">
@@ -114,47 +120,45 @@ export default function App() {
 
                 {/* Dynamic Content Area dengan Transisi */}
                 <div className="mt-32 md:mt-32 min-h-[60vh]">
-                    
-                    {/* 3. Bungkus Switch Logic dengan AnimatePresence */}
-                    <AnimatePresence mode="wait">
-                        
-                        {activeTab === "home" && (
-                            <PageTransition key="home" className="w-full">
-                                <div className="space-y-20">
-                                    <Hero />
-                                    <Suspense fallback={<LoadingFallback />}>
-                                        <Projects onSelectProject={setSelectedProject} />
-                                    </Suspense>
-                                </div>
-                            </PageTransition>
-                        )}
 
-                        {activeTab === "about" && (
-                            <PageTransition key="about" className="w-full">
-                                <Suspense fallback={<LoadingFallback />}>
-                                    <About />
-                                </Suspense>
-                            </PageTransition>
-                        )}
+                  <AnimatePresence mode="wait">
 
-                        {activeTab === "services" && (
-                            <PageTransition key="services" className="w-full">
-                                <Suspense fallback={<LoadingFallback />}>
-                                    <Services />
-                                </Suspense>
-                            </PageTransition>
-                        )}
+                    {activeTab === "home" && (
+                      <PageTransition key="home" className="w-full">
+                        <div className="space-y-20">
+                          <Hero />
+                          <Suspense fallback={<LoadingFallback />}>
+                            <Projects onSelectProject={setSelectedProject} />
+                          </Suspense>
+                        </div>
+                      </PageTransition>
+                    )}
 
-                        {activeTab === "contact" && (
-                            <PageTransition key="contact" className="w-full">
-                                <Suspense fallback={<LoadingFallback />}>
-                                    <Contact />
-                                </Suspense>
-                            </PageTransition>
-                        )}
+                    {activeTab === "about" && (
+                      <PageTransition key="about" className="w-full">
+                        <Suspense fallback={<LoadingFallback />}>
+                          <About />
+                        </Suspense>
+                      </PageTransition>
+                    )}
 
-                    </AnimatePresence>
-                    {/* End AnimatePresence */}
+                    {activeTab === "services" && (
+                      <PageTransition key="services" className="w-full">
+                        <Suspense fallback={<LoadingFallback />}>
+                          <Services />
+                        </Suspense>
+                      </PageTransition>
+                    )}
+
+                    {activeTab === "contact" && (
+                      <PageTransition key="contact" className="w-full">
+                        <Suspense fallback={<LoadingFallback />}>
+                          <Contact />
+                        </Suspense>
+                      </PageTransition>
+                    )}
+
+                  </AnimatePresence>
 
                 </div>
               </div>
