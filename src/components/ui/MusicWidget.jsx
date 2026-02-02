@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Disc3 } from 'lucide-react';
+import { Disc3, ExternalLink, PlayCircle } from 'lucide-react'; // Tambah icon Play
 
+// Ganti import.meta.env dengan process.env untuk kompatibilitas
 const USERNAME = import.meta.env.VITE_LASTFM_USERNAME;
 const API_KEY = import.meta.env.VITE_LASTFM_API_KEY;
-
 export const MusicWidget = ({ className }) => {
     const [song, setSong] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ export const MusicWidget = ({ className }) => {
         const fetchMusic = async () => {
             try {
                 if (!USERNAME || !API_KEY) {
-                    console.warn("LastFM API Key or Username is missing");
+                    if (!API_KEY) console.warn("LastFM API Key is missing.");
                     setLoading(false);
                     return;
                 }
@@ -28,7 +28,7 @@ export const MusicWidget = ({ className }) => {
                     setSong({
                         name: track.name,
                         artist: track.artist['#text'],
-                        image: track.image[2]['#text'], // Ukuran Medium
+                        image: track.image[2]['#text'],
                         isPlaying: track['@attr']?.nowplaying === 'true',
                         url: track.url
                     });
@@ -41,22 +41,25 @@ export const MusicWidget = ({ className }) => {
         };
 
         fetchMusic();
-        const interval = setInterval(fetchMusic, 30000); // Cek tiap 30 detik
+        const interval = setInterval(fetchMusic, 30000); 
         return () => clearInterval(interval);
     }, []);
 
     if (loading || !song) return null;
 
+    // FITUR BARU: Generate Link ke Spotify Search
+    // Ini akan membuka Spotify dan langsung mencari "Judul Lagu + Artis"
+    const spotifyUrl = `https://open.spotify.com/search/${encodeURIComponent(song.name + " " + song.artist)}`;
+
     return (
         <motion.a
-            href={song.url}
+            href={spotifyUrl} // Link diganti ke Spotify
             target="_blank"
             rel="noopener noreferrer"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            // FIX: Hapus 'hidden md:flex', ganti jadi 'flex' biar muncul di HP.
-            // Tambahkan ${className} agar styling dari parent (App.js) bisa masuk.
-            className={`fixed bottom-34 right-4 z-50 group flex items-center gap-3 bg-black/60 backdrop-blur-md border border-white/10 pr-4 pl-2 py-2 rounded-full hover:bg-black/80 transition-colors shadow-2xl ${className || ''}`}
+            className={`fixed bottom-34 right-4 z-50 group flex items-center gap-3 bg-black/60 backdrop-blur-md border border-white/10 pr-4 pl-2 py-2 rounded-full hover:bg-black/80 transition-all hover:scale-105 hover:border-green-500/50 shadow-2xl cursor-pointer ${className || ''}`}
+            title="Click to listen on Spotify"
         >
             <div className={`relative w-10 h-10 rounded-full overflow-hidden border border-white/20 ${song.isPlaying ? 'animate-spin-slow' : ''}`}>
                 {song.image ? (
@@ -69,10 +72,15 @@ export const MusicWidget = ({ className }) => {
 
                 {/* Status Dot */}
                 <div className={`absolute top-0 right-0 w-3 h-3 rounded-full border-2 border-black ${song.isPlaying ? 'bg-green-500 animate-pulse' : 'bg-zinc-500'}`} />
+                
+                {/* Overlay Play Icon saat Hover */}
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <PlayCircle size={20} className="text-white" />
+                </div>
             </div>
 
             <div className="flex flex-col">
-                <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold flex items-center gap-1">
+                <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold flex items-center gap-1 group-hover:text-green-400 transition-colors">
                     {song.isPlaying ? 'Now Playing' : 'Last Played'}
                     {song.isPlaying && (
                         <span className="flex gap-[2px] items-end h-2">
@@ -82,7 +90,7 @@ export const MusicWidget = ({ className }) => {
                         </span>
                     )}
                 </span>
-                <span className="text-xs font-medium text-white max-w-[120px] truncate">
+                <span className="text-xs font-medium text-white max-w-[120px] truncate group-hover:underline decoration-green-500/50 underline-offset-2">
                     {song.name}
                 </span>
                 <span className="text-[10px] text-zinc-500 max-w-[120px] truncate">
