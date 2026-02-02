@@ -7,6 +7,9 @@ import { FlipWords } from '../ui/flip-words';
 // Import Hook Easter Egg
 import { useEasterEgg } from '../../hooks/use-easter-egg';
 
+// --- IMPORT COMPONENT LIVE STATUS BARU ---
+import { LiveStatus } from '../ui/LiveStatus';
+
 // --- Komponen Kecil untuk Animasi Angka ---
 const AnimatedCounter = ({ value }) => {
   const ref = useRef(null);
@@ -43,7 +46,6 @@ export const Hero = () => {
     setTapCount(prev => prev + 1);
     
     // Reset tap count kalau user berhenti ngetap selama 1 detik
-    // (User harus tap 5x berturut-turut dengan cepat)
     setTimeout(() => setTapCount(0), 1000);
 
     // Kalau sudah 5x tap... BOOM!
@@ -58,10 +60,9 @@ export const Hero = () => {
        <div className="flex flex-col-reverse md:flex-row justify-between items-start gap-8 md:gap-4">
           <div className="space-y-8 max-w-2xl relative z-10">
               
-              {/* Status Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs text-zinc-400 font-mono tracking-wider">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" aria-hidden="true"/>
-                AVAILABLE FOR FREELANCE
+              {/* --- BAGIAN INI SUDAH DIGANTI DENGAN LIVE STATUS --- */}
+              <div>
+                <LiveStatus />
               </div>
               
               {/* FlipWords Title */}
@@ -93,7 +94,6 @@ export const Hero = () => {
           </div>
           
           {/* Avatar Section dengan Event Handler */}
-          {/* Tambahkan onClick dan cursor-pointer di sini */}
           <div 
             className="relative group md:mt-12 self-center md:self-auto cursor-pointer select-none" 
             onClick={handleAvatarClick}
