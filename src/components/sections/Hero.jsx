@@ -4,10 +4,8 @@ import { motion, useInView, useMotionValue, useTransform, animate } from "framer
 import { PROFILE_DATA } from '../../data/mock_profiledata';
 import { FlipWords } from '../ui/flip-words'; 
 
-// Import Hook Easter Egg
 import { useEasterEgg } from '../../hooks/use-easter-egg';
 
-// --- IMPORT COMPONENT LIVE STATUS BARU ---
 import { LiveStatus } from '../ui/LiveStatus';
 
 // --- Komponen Kecil untuk Animasi Angka ---
@@ -48,7 +46,6 @@ export const Hero = () => {
     // Reset tap count kalau user berhenti ngetap selama 1 detik
     setTimeout(() => setTapCount(0), 1000);
 
-    // Kalau sudah 5x tap... BOOM!
     if (tapCount + 1 === 5) {
       triggerConfetti();
       setTapCount(0); // Reset hitungan
@@ -60,7 +57,6 @@ export const Hero = () => {
        <div className="flex flex-col-reverse md:flex-row justify-between items-start gap-8 md:gap-4">
           <div className="space-y-8 max-w-2xl relative z-10">
               
-              {/* --- BAGIAN INI SUDAH DIGANTI DENGAN LIVE STATUS --- */}
               <div>
                 <LiveStatus />
               </div>

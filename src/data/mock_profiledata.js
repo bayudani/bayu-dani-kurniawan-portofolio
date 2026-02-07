@@ -8,7 +8,7 @@ export const PROFILE_DATA = {
     name: "Bayu Dani Kurniawan",
     role: "Web Developer",
     location: "Bengkalis, Riau",
-    bio: "Dedicated Software Engineering student specializing in Web and Mobile Development with strong passion in building impactful digital products. Experienced in developing full-stack applications using Laravel, ExpressJS, Flutter, and Kotlin. Skilled in problem solving, teamwork, and adapting to new technologies quickly.",
+    bio: "Fullstack Developer & Mobile App Engineer. Transforming complex ideas into high-performance digital products using Laravel, Flutter, and Modern Tech. Your Partner in Digital Innovation. I build scalable Websites and Mobile Apps tailored to your needs. From concept to code, I got your back.",
     avatar: profileImg,
     stats: [
         { label: "Years", value: "2+" },

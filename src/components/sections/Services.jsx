@@ -10,9 +10,10 @@ import {
     Star,
     Quote,
     Plus,
-    ChevronDown, // Tambahan buat FAQ
-    ChevronUp,   // Tambahan buat FAQ
-    HelpCircle   // Tambahan buat FAQ
+    ChevronDown,
+    ChevronUp,
+    HelpCircle,
+    ShieldCheck // Tambahan icon untuk indikator privasi
 } from "lucide-react";
 import { TESTIMONIALS } from "../../data/mock_profiledata";
 
@@ -29,6 +30,16 @@ export const Services = () => {
     
     // State buat Accordion FAQ
     const [openFaqIndex, setOpenFaqIndex] = useState(null);
+
+    // Fungsi Helper: Sensor Nama
+    // Mengubah "Bayu Ardiansyah" menjadi "B*** A***"
+    const censorName = (name) => {
+        if (!name || name === "Anonymous") return "Student/Client";
+        return name
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + "***") // Ambil huruf depan + ***
+            .join(" ");
+    };
 
     // Fungsi Toggle FAQ
     const toggleFaq = (index) => {
@@ -211,8 +222,11 @@ export const Services = () => {
                             <Quote className="text-emerald-500 fill-emerald-500/20" />
                             Trusted by Clients & Friends
                         </h3>
-                        <p className="text-zinc-500 text-sm mt-2 ml-1">
-                            Real feedback from real people.
+                        <p className="text-zinc-500 text-sm mt-2 ml-1 flex items-center gap-2">
+                            Real feedback. 
+                            <span className="inline-flex items-center gap-1 text-emerald-400/80 bg-emerald-500/10 px-2 py-0.5 rounded text-xs border border-emerald-500/20">
+                                <ShieldCheck size={12} /> Privacy Protected
+                            </span>
                         </p>
                     </div>
 
@@ -248,7 +262,10 @@ export const Services = () => {
                                     {testi.name ? testi.name.charAt(0) : "A"}
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-bold text-sm">{testi.name}</h4>
+                                    {/* NAMA DI SENSOR DISINI */}
+                                    <h4 className="text-white font-bold text-sm">
+                                        {censorName(testi.name)}
+                                    </h4>
                                     <p className="text-zinc-500 text-xs uppercase tracking-wider">
                                         {testi.role}
                                     </p>
